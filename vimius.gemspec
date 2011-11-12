@@ -22,6 +22,12 @@ Gem::Specification.new do |s|
   # Run-time dependencies
   ####
 
+  # Bundler
+  s.add_dependency 'bundler', '~>1.0.0'
+  
+  # TgConfig
+  s.add_dependency 'tg_config', '~>0.0.1'
+
   # Rake
   s.add_dependency 'rake', '~>0.9.2'
 

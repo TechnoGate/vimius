@@ -53,7 +53,7 @@ module Vimius
     #
     # @return [Array]
     def active
-      Vimius::Config[:submodules].map do |submodule|
+      TechnoGate::TgConfig[:submodules].map do |submodule|
         submodule(submodule)
       end
     end

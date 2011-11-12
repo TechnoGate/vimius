@@ -223,7 +223,7 @@ describe Submodules do
     it { should respond_to :active }
 
     it "should return expected_submodules" do
-      Vimius::Config.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
+      TechnoGate::TgConfig.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
 
       subject.active.should == expected_submodules
     end

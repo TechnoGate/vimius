@@ -17,6 +17,17 @@ module Vimius
       submodules.group_by { |submodule| submodule[:group] }
     end
 
+    # Return the submodules bu name
+    #
+    # @return [Hash]
+    def submodules_by_name
+      res = {}
+      submodules.each do |submodule|
+        res[submodule[:name]] = submodule
+      end
+      res
+    end
+
     # Return a submodule along with all its dependencies
     #
     # @return [Array]

@@ -134,4 +134,14 @@ describe Vimius::Config do
       subject[:submodules]
     end
   end
+
+  describe "#[]=" do
+    it { should respond_to :[]= }
+
+    it "should set the new config in @@config" do
+      subject[:submodules] = [:pathogen, :github]
+      subject.class_variable_get('@@config')[:vimius][:submodules].should ==
+        [:pathogen, :github]
+    end
+  end
 end

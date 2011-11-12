@@ -19,6 +19,19 @@ module Vimius
       @@config[:vimius].send(:[], config)
     end
 
+    # Update the config file
+    #
+    # @param [String] config
+    # @param [Mixed] Values
+    def []=(config, value)
+      if @@config.nil?
+        check_config_file
+        @@config ||= parse_config_file
+      end
+
+      @@config[:vimius].send(:[]=, config, value)
+    end
+
     # Get the config file
     #
     # @return [String] Absolute path to the config file

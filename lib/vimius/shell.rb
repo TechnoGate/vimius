@@ -1,15 +1,17 @@
-module Vimius
-  module Shell
-    extend self
+module TechnoGate
+  module Vimius
+    module Shell
+      extend self
 
-    def shell(command, debug = false)
-      if debug
-        `#{command}`
-      else
-        `#{command} 2> /dev/null`
+      def shell(command, debug = false)
+        if debug
+          `#{command}`
+        else
+          `#{command} 2> /dev/null`
+        end
       end
     end
-  end
 
-  include Shell
+    include Shell
+  end
 end

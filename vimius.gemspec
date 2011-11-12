@@ -4,7 +4,7 @@ require "vimius/version"
 
 Gem::Specification.new do |s|
   s.name        = "vimius"
-  s.version     = Vimius.version
+  s.version     = TechnoGate::Vimius.version
   s.authors     = ["Wael Nasreddine"]
   s.email       = ["wael.nasreddine@gmail.com"]
   s.homepage    = ""

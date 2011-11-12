@@ -223,7 +223,7 @@ describe Submodules do
     it { should respond_to :active }
 
     it "should return expected_submodules" do
-      TechnoGate::TgConfig.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
+      TgConfig.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
 
       subject.active.should == expected_submodules
     end

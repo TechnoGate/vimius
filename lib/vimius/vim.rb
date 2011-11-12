@@ -1,10 +1,12 @@
-module Vimius
-  module VIM
-    extend self
+module TechnoGate
+  module Vimius
+    module VIM
+      extend self
 
-    # Folders
-    def folders
-      %w[ _backup _temp ]
+      # Folders
+      def folders
+        %w[ _backup _temp ]
+      end
     end
   end
 end

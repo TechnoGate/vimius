@@ -1,7 +1,7 @@
 # Sources
 source "http://rubygems.org"
 
-# Parse watch_tower.gemspec
+# Parse vimius.gemspec
 gemspec
 
 ####
@@ -21,7 +21,6 @@ platforms :ruby do
     if RbConfig::CONFIG['target_os'] =~ /linux/i
       gem 'rb-inotify', :require => false
       gem 'libnotify', :require => false
-      gem 'therubyracer', :require => false
     end
   end
 end

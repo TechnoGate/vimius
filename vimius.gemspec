@@ -16,9 +16,14 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.required_ruby_version = Gem::Requirement.new(">= 1.8.7")
+
   ####
   # Run-time dependencies
   ####
+
+  # Rake
+  s.add_dependency 'rake', '~>0.9.2'
 
   # Active Support
   s.add_dependency 'activesupport', '~>3.1.1'

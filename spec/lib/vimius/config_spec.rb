@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Vimius::Config do
   before(:each) do
-    @config = {vimius: {submodules: true}}
+    @config = {vimius: {submodules: [:pathogen]}}
     @config_path = '/valid/path'
     @invalid_config_path = '/invalid/path'
     @yaml = mock
@@ -101,51 +101,10 @@ describe Vimius::Config do
       subject[:submodules]
     end
 
-    it "should call config_file" do
-      Vimius::Config.expects(:config_file).returns(@config_path).once
+    it "should call parse_config_file" do
+      Vimius::Config.expects(:parse_config_file).returns(@config).once
 
       subject[:submodules]
-    end
-
-    it "should call YAML.parse_file" do
-      Psych.expects(:parse_file).with(@config_path).returns(@yaml).once
-
-      subject[:submodules]
-    end
-
-    it "should call to_ruby on the YAML result" do
-      @yaml.expects(:to_ruby).returns(@config).once
-
-      subject[:submodules]
-    end
-
-    it "should raise ConfigNotDefinedError if config not found" do
-      Vimius::Config.stubs(:config_file).returns(nil)
-      ::File.stubs(:exists?).with(@invalid_config_path).returns(false)
-
-      -> { subject[:submodules] }.should raise_error ConfigNotDefinedError
-    end
-
-    it "should raise ConfigNotReadableError if config not found" do
-      Vimius::Config.stubs(:config_file).returns(@invalid_config_path)
-      ::File.stubs(:readable?).with(@invalid_config_path).returns(false)
-
-      -> { subject[:submodules] }.should raise_error ConfigNotReadableError
-    end
-
-    it "should handle the case where config is not a valid YAML file." do
-      Psych.stubs(:parse_file).with(@config_path).returns(nil)
-
-      -> { subject[:submodules] }.should raise_error ConfigNotValidError
-    end
-
-    it "should handle the case where :vimius key does not exist" do
-      config = {}
-      yaml = mock
-      yaml.stubs(:to_ruby).returns(config)
-      Psych.stubs(:parse_file).with(@config_path).returns(yaml)
-
-      -> { subject[:submodules] }.should raise_error ConfigNotValidError
     end
   end
 end

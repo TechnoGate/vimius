@@ -182,32 +182,32 @@ describe Submodules do
     end
   end
 
-  describe "#find_submodule" do
-    it { should respond_to :find_submodule }
-
-    it "should return the submodule we're looking for" do
-      subject.send(:find_submodule, :pathogen).should == expected_submodules.first
-    end
-  end
-
   describe "#submodule" do
     it { should respond_to :submodule }
 
+    it "should return the submodule we're looking for" do
+      subject.send(:submodule, :pathogen).should == expected_submodules.first
+    end
+  end
+
+  describe "#submodule_with_dependencies" do
+    it { should respond_to :submodule_with_dependencies}
+
     it "should return the correct module from the submodules hash" do
-      subject.submodule("pathogen").first.should == expected_submodules.first
+      subject.submodule_with_dependencies("pathogen").first.should == expected_submodules.first
     end
 
     it "should return the name with the submodule" do
-      subject.submodule("pathogen").first["name"].should == "pathogen"
+      subject.submodule_with_dependencies("pathogen").first["name"].should == "pathogen"
     end
 
     it "should return all dependencies when getting the module command-t" do
-      subject.submodule("command-t").should include expected_submodules[1]
-      subject.submodule("command-t").should include expected_submodules.first
+      subject.submodule_with_dependencies("command-t").should include expected_submodules[1]
+      subject.submodule_with_dependencies("command-t").should include expected_submodules.first
     end
 
     it "should not include the same dependency twice" do
-      subject.submodule("github").select { |c| c["name"] == "pathogen"}.size.should == 1
+      subject.submodule_with_dependencies("github").select { |c| c["name"] == "pathogen"}.size.should == 1
     end
   end
 

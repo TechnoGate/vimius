@@ -31,13 +31,22 @@ module Vimius
     # Return a submodule along with all its dependencies
     #
     # @return [Array]
-    def submodule(name)
-      res = [find_submodule(name)]
+    def submodule_with_dependencies(name)
+      res = [submodule(name)]
       dependencies(name).each do |dependency|
         res << submodule(dependency)
       end
 
       res.flatten.uniq
+    end
+
+    # Find the submodule given bu the name
+    #
+    # @param [String] name
+    # @return [Hash]
+    def submodule(name)
+      submodules.select { |s| s[:name].to_s == name.to_s }.
+        first
     end
 
     # Return an array of active submodules
@@ -80,7 +89,7 @@ module Vimius
     # @return [Array]
     def dependencies(name)
       dependencies = []
-      submodule = find_submodule(name)
+      submodule = submodule(name)
       if submodule.has_key?(:dependencies)
         submodule[:dependencies].each do |dependency|
           dependencies << dependency
@@ -89,15 +98,6 @@ module Vimius
       end
 
       dependencies.flatten.uniq.sort
-    end
-
-    # Find the submodule given bu the name
-    #
-    # @param [String] name
-    # @return [Hash]
-    def find_submodule(name)
-      submodules.select { |s| s[:name].to_s == name.to_s }.
-        first
     end
   end
 end

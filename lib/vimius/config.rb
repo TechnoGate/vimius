@@ -35,13 +35,15 @@ module Vimius
       end
 
       # Check the config file
-      def check_config_file
+      def check_config_file(writable = false)
         # Check that config_file is defined
         raise ConfigNotDefinedError unless config_file
         # Check that the config file exists
         initialize_config_file unless ::File.exists?(config_file)
         # Check that the config file is readable?
         raise ConfigNotReadableError unless ::File.readable?(config_file)
+        # Checl that the Config file is writable?
+        raise ConfigNotWritableError unless ::File.writable?(config_file) if writable
       end
 
       # Parse the config file

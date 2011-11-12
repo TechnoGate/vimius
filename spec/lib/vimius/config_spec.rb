@@ -41,6 +41,33 @@ describe Vimius::Config do
 
       subject.send(:check_config_file)
     end
+
+    it "should call File.writable?" do
+      ::File.expects(:writable?).with(@config_path).returns(true).once
+
+      subject.send(:check_config_file, true)
+    end
+
+    it "should not call File.writable? if no arguments were passed" do
+      ::File.expects(:writable?).with(@config_path).returns(true).never
+
+      subject.send(:check_config_file)
+    end
+
+    it "should raise ConfigNotReadableError if config not readable" do
+      Vimius::Config.stubs(:config_file).returns(@invalid_config_path)
+      ::File.stubs(:readable?).with(@invalid_config_path).returns(false)
+
+      -> { subject.send(:check_config_file) }.should raise_error ConfigNotReadableError
+    end
+
+    it "should raise ConfigNotWritableError if config not readable" do
+      Vimius::Config.stubs(:config_file).returns(@config_path)
+      ::File.stubs(:writable?).with(@config_path).returns(false)
+
+      -> { subject.send(:check_config_file, true) }.should raise_error ConfigNotWritableError
+    end
+
   end
 
   describe "#initialize_config_file" do

@@ -28,11 +28,31 @@ describe Submodules do
   end
 
   let(:expected_submodules) do
-    submodules["submodules"].each do |k, v|
-     submodules["submodules"][k].merge!("name" => k)
-    end
-
-    submodules["submodules"]
+    {
+      "pathogen" => {
+        "path"  => "vimius/vim/core/pathogen",
+        "group" => "core",
+        "name"  => "pathogen",
+      },
+      "tlib" => {
+        "path"  => "vimius/vim/tools/tlib",
+        "group" => "tools",
+        "dependencies" => ["pathogen"],
+        "name"  => "tlib",
+      },
+      "command-t" => {
+        "path"  => "vimius/vim/tools/command-t",
+        "group" => "tools",
+        "dependencies" => ["tlib"],
+        "name"  => "command-t",
+      },
+      "github" => {
+        "path"  => "vimius/vim/tools/github",
+        "group" => "tools",
+        "dependencies" => ["tlib", "pathogen"],
+        "name"  => "github",
+      },
+    }
   end
 
   before(:each) do

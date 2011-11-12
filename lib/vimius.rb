@@ -1,3 +1,5 @@
+require 'active_support/core_ext'
+
 ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
 VIMIUS_PATH = File.join ROOT_PATH, 'vimius'
 VIMIUS_VIM_PATH = File.join VIMIUS_PATH, 'vim'

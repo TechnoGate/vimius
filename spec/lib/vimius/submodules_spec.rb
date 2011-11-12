@@ -27,6 +27,14 @@ describe Submodules do
     }
   end
 
+  let(:expected_submodules) do
+    submodules["submodules"].each do |k, v|
+     submodules["submodules"][k].merge!("name" => k)
+    end
+
+    submodules["submodules"]
+  end
+
   before(:each) do
     @yaml = mock "YAML"
     @yaml.stubs(:to_ruby).returns(submodules)
@@ -36,8 +44,8 @@ describe Submodules do
   describe '#parse_submodules_yaml_file' do
     it { should respond_to :parse_submodules_yaml_file }
 
-    it "should parse the submodules file and returns a hash" do
-      subject.send(:parse_submodules_yaml_file).should be_instance_of Hash
+    it "should parse the submodules file and returns a HashWithIndifferentAccess" do
+      subject.send(:parse_submodules_yaml_file).should be_instance_of HashWithIndifferentAccess
     end
 
     it "should handle the case where submodules is not a valid YAML file." do
@@ -74,13 +82,13 @@ describe Submodules do
     it { should respond_to :submodules }
 
     it "should return submodules" do
-      subject.submodules.should == submodules["submodules"]
+      subject.submodules.should == expected_submodules
     end
 
     it "should be cached" do
-      subject.submodules.should == submodules["submodules"]
+      subject.submodules.should == expected_submodules
       Psych.stubs(:parse_file).returns(nil)
-      subject.submodules.should == submodules["submodules"]
+      subject.submodules.should == expected_submodules
     end
 
     it "should add the name for each submodule" do
@@ -92,7 +100,7 @@ describe Submodules do
     it { should respond_to :submodule }
 
     it "should return the correct module from the submodules hash" do
-      subject.submodule("pathogen").first.should == submodules["submodules"]["pathogen"].merge("name" => "pathogen")
+      subject.submodule("pathogen").first.should == expected_submodules["pathogen"]
     end
 
     it "should return the name with the submodule" do
@@ -100,8 +108,8 @@ describe Submodules do
     end
 
     it "should return all dependencies when getting the module command-t" do
-      subject.submodule("command-t").should include submodules["submodules"]["tlib"].merge("name" => "tlib")
-      subject.submodule("command-t").should include submodules["submodules"]["pathogen"].merge("name" => "pathogen")
+      subject.submodule("command-t").should include expected_submodules["tlib"]
+      subject.submodule("command-t").should include expected_submodules["pathogen"]
     end
 
     it "should not include the same dependency twice" do

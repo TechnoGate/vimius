@@ -63,8 +63,8 @@ describe Vimius::Config do
 
     it { should respond_to :parse_config_file }
 
-    it "should parse the config file and return an instance of Hash" do
-      subject.send(:parse_config_file).should be_instance_of Hash
+    it "should parse the config file and return an instance of HashWithIndifferentAccess" do
+      subject.send(:parse_config_file).should be_instance_of HashWithIndifferentAccess
     end
 
     it "should handle the case where config is not a valid YAML file." do

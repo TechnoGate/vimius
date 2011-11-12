@@ -33,7 +33,7 @@ module Vimius
     #
     # @return [Array]
     def groups
-      submodules.map { |k, v| v["group"] }.uniq.sort
+      submodules.map { |k, v| v[:group] }.uniq.sort
     end
 
     protected
@@ -49,16 +49,16 @@ module Vimius
       end
       raise SubmodulesNotValidError,
         "Not valid YAML file: The YAML does not respond_to to_ruby." unless parsed_yaml.respond_to?(:to_ruby)
-      submodules = parsed_yaml.to_ruby
+      submodules = parsed_yaml.to_ruby.with_indifferent_access
       raise SubmodulesNotValidError,
-        "Not valid YAML file: It doesn't contain submodules root key." unless submodules.has_key?("submodules")
+        "Not valid YAML file: It doesn't contain submodules root key." unless submodules.has_key?(:submodules)
 
       # XXX: This is not ruby-ish
-      submodules["submodules"].each do |k, v|
-       submodules["submodules"][k].merge!("name" => k)
+      submodules[:submodules].each do |k, v|
+       submodules[:submodules][k].merge!(:name => k)
       end
 
-      submodules["submodules"]
+      submodules[:submodules]
     end
 
     # Return a list of all dependencies of a submodule (recursive)
@@ -68,8 +68,8 @@ module Vimius
     def dependencies(name)
       dependencies = []
       submodule = submodules[name.to_s]
-      if submodule.has_key?("dependencies")
-        submodule["dependencies"].each do |dependency|
+      if submodule.has_key?(:dependencies)
+        submodule[:dependencies].each do |dependency|
           dependencies << dependency
           dependencies << dependencies(dependency)
         end

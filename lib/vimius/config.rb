@@ -56,7 +56,7 @@ module Vimius
         end
         raise ConfigNotValidError,
           "Not valid YAML file: The YAML does not respond_to to_ruby." unless parsed_yaml.respond_to?(:to_ruby)
-        config = parsed_yaml.to_ruby
+        config = parsed_yaml.to_ruby.with_indifferent_access
         raise ConfigNotValidError,
           "Not valid YAML file: It doesn't contain vimius root key." unless config.has_key?(:vimius)
 

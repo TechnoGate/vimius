@@ -10,6 +10,13 @@ module Vimius
       @submodules ||= parse_submodules_yaml_file
     end
 
+    # Return the submodules bu group
+    #
+    # @return [Hash]
+    def submodules_by_group
+      submodules.group_by { |submodule| submodule[:group] }
+    end
+
     # Return a submodule along with all its dependencies
     #
     # @return [Array]

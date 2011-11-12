@@ -55,6 +55,40 @@ describe Submodules do
     ]
   end
 
+  let(:submodules_by_group) do
+    {
+      "core" =>
+      [
+        {
+          "path"  => "vimius/vim/core/pathogen",
+          "group" => "core",
+          "name"  => "pathogen",
+        },
+      ],
+      "tools" =>
+      [
+        {
+          "path"  => "vimius/vim/tools/tlib",
+          "group" => "tools",
+          "dependencies" => ["pathogen"],
+          "name" => "tlib",
+        },
+        {
+          "path"  => "vimius/vim/tools/command-t",
+          "group" => "tools",
+          "dependencies" => ["tlib"],
+          "name" => "command-t",
+        },
+        {
+          "path"  => "vimius/vim/tools/github",
+          "group" => "tools",
+          "dependencies" => ["tlib", "pathogen"],
+          "name" => "github",
+        },
+      ],
+    }
+  end
+
   before(:each) do
     @yaml = mock "YAML"
     @yaml.stubs(:to_ruby).returns(submodules)
@@ -159,5 +193,13 @@ describe Submodules do
 
   describe "#active" do
     it { should respond_to :active }
+  end
+
+  describe "#submodules_by_group" do
+    it { should respond_to :submodules_by_group }
+
+    it "should return submodules_by_group" do
+      subject.submodules_by_group.should == submodules_by_group
+    end
   end
 end

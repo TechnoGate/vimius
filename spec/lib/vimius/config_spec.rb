@@ -15,6 +15,11 @@ describe Vimius::Config do
 
     ::File.stubs(:exists?).with(@invalid_config_path).returns(false)
     ::File.stubs(:readable?).with(@invalid_config_path).returns(false)
+
+    @file_handler = mock "file handler"
+    @file_handler.stubs(:write)
+
+    ::File.stubs(:open).with(@config_path, 'w').yields(@file_handler)
   end
 
   describe "@@config" do
@@ -136,12 +141,67 @@ describe Vimius::Config do
   end
 
   describe "#[]=" do
+    after(:each) do
+      Vimius::Config.class_variable_set('@@config', nil)
+    end
+
     it { should respond_to :[]= }
 
     it "should set the new config in @@config" do
       subject[:submodules] = [:pathogen, :github]
       subject.class_variable_get('@@config')[:vimius][:submodules].should ==
         [:pathogen, :github]
+    end
+  end
+
+  describe "#write_config_file" do
+    before(:each) do
+      subject.class_variable_get('@@config').stubs(:to_hash).returns(@config)
+    end
+
+    it { should respond_to :write_config_file }
+
+    it "should call to_hash on @@config" do
+      subject.class_variable_get('@@config').expects(:to_hash).returns(@config).once
+
+      subject.send :write_config_file
+    end
+
+    it "should call to_yaml on @@config.to_hash" do
+      @config.expects(:to_yaml).returns(@config.to_yaml).twice # => XXX: Why twice ?
+      subject.class_variable_get('@@config').stubs(:to_hash).returns(@config)
+
+      subject.send :write_config_file
+    end
+
+    it "should call File.open with config_file" do
+      ::File.expects(:open).with(@config_path, 'w').yields(@file_handler).once
+
+      subject.send :write_config_file
+    end
+
+    it "should write the yaml contents to the config file" do
+      @file_handler.expects(:write).with(@config.to_yaml).once
+      ::File.stubs(:open).with(@config_path, 'w').yields(@file_handler)
+
+      subject.send :write_config_file
+    end
+  end
+
+  describe "#save" do
+    it { should respond_to :save }
+
+    it "should call check_config_file to make sure it is writable" do
+      Vimius::Config.expects(:check_config_file).with(true).once
+
+      subject.send :save
+    end
+
+    it "should call write_config_file" do
+
+    end
+
+    it "should clear the cache" do
     end
   end
 end

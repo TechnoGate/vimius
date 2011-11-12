@@ -39,6 +39,12 @@ module Vimius
       File.join(ENV["HOME"], 'vimius.yml')
     end
 
+    # Save the config file
+    def save
+      # Make sure the config file is writable
+      check_config_file(true)
+    end
+
     protected
       # Initialize the configuration file
       def initialize_config_file
@@ -76,6 +82,13 @@ module Vimius
           "Not valid YAML file: It doesn't contain vimius root key." unless config.has_key?(:vimius)
 
         config
+      end
+
+      # Write the config file
+      def write_config_file
+        File.open config_file, 'w' do |f|
+          f.write(@@config.to_hash.to_yaml)
+        end
       end
   end
 end

@@ -24,7 +24,7 @@ describe Submodules do
           "dependencies" => ["tlib", "pathogen"],
         },
       },
-    }
+    }.with_indifferent_access
   end
 
   let(:expected_submodules) do
@@ -33,25 +33,25 @@ describe Submodules do
         "path"  => "vimius/vim/core/pathogen",
         "group" => "core",
         "name"  => "pathogen",
-      },
+      }.with_indifferent_access,
       {
         "path"  => "vimius/vim/tools/tlib",
         "group" => "tools",
         "dependencies" => ["pathogen"],
         "name"  => "tlib",
-      },
+      }.with_indifferent_access,
       {
         "path"  => "vimius/vim/tools/command-t",
         "group" => "tools",
         "dependencies" => ["tlib"],
         "name"  => "command-t",
-      },
+      }.with_indifferent_access,
       {
         "path"  => "vimius/vim/tools/github",
         "group" => "tools",
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
-      },
+      }.with_indifferent_access,
     ]
   end
 
@@ -86,7 +86,7 @@ describe Submodules do
           "name" => "github",
         },
       ],
-    }
+    }.with_indifferent_access
   end
 
   let (:submodules_by_name) do
@@ -114,54 +114,13 @@ describe Submodules do
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
       },
-    }
+    }.with_indifferent_access
   end
+
+  subject { Submodules.new MODULES_FILE }
 
   before(:each) do
-    @yaml = mock "YAML"
-    @yaml.stubs(:to_ruby).returns(submodules)
-    Psych.stubs(:parse_file).returns(@yaml)
-  end
-
-  describe '#parse_submodules_yaml_file' do
-    it { should respond_to :parse_submodules_yaml_file }
-
-    it "should parse the submodules file and returns a Array" do
-      subject.send(:parse_submodules_yaml_file).should be_instance_of Array
-    end
-
-    it "should have the elements as a HashWithIndifferentAccess" do
-      subject.send(:parse_submodules_yaml_file).first.should be_instance_of HashWithIndifferentAccess
-    end
-
-    it "should handle the case where submodules is not a valid YAML file." do
-      Psych.stubs(:parse_file).raises(Psych::SyntaxError)
-
-      -> { subject.send :parse_submodules_yaml_file }.should raise_error SubmodulesNotValidError
-    end
-
-    it "should handle the case where Psych returns nil." do
-      Psych.stubs(:parse_file).returns(nil)
-
-      -> { subject.send :parse_submodules_yaml_file }.should raise_error SubmodulesNotValidError
-    end
-
-    it "should handle the case where :submodules key does not exist" do
-      config = {}
-      yaml = mock
-      yaml.stubs(:to_ruby).returns(config)
-      Psych.stubs(:parse_file).returns(yaml)
-
-      -> { subject.send :parse_submodules_yaml_file }.should raise_error SubmodulesNotValidError
-    end
-  end
-
-  describe "#dependencies" do
-    it {should respond_to :dependencies}
-
-    it "should return tlib and pathogen as dependencies of command-t" do
-      subject.send(:dependencies, 'command-t').should == ["pathogen", "tlib"]
-    end
+    subject.send(:instance_variable_set, :@config, submodules)
   end
 
   describe "#submodules" do
@@ -171,14 +130,16 @@ describe Submodules do
       subject.submodules.should == expected_submodules
     end
 
-    it "should be cached" do
-      subject.submodules.should == expected_submodules
-      Psych.stubs(:parse_file).returns(nil)
-      subject.submodules.should == expected_submodules
-    end
-
     it "should add the name for each submodule" do
       subject.submodules.first["name"].should == "pathogen"
+    end
+  end
+
+  describe "#dependencies" do
+    it {should respond_to :dependencies}
+
+    it "should return tlib and pathogen as dependencies of command-t" do
+      subject.send(:dependencies, 'command-t').should == ["pathogen", "tlib"]
     end
   end
 

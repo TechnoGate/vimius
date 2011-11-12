@@ -4,22 +4,18 @@ require "bundler/setup"
 require "active_support/core_ext"
 require "tg_config"
 
-ROOT_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
-VIMIUS_PATH = File.join ROOT_PATH, 'vimius'
-VIMIUS_VIM_PATH = File.join VIMIUS_PATH, 'vim'
-VIMIUS_RUBY_PATH = File.join VIMIUS_PATH, 'ruby'
-
 module TechnoGate
-
-  # Setup the config
-  TgConfig.config_file = File.join ENV['HOME'], '.vimius.rb'
-
   module Vimius
-    # Return the root path
-    #
-    # @return [String] The absolute path to Vimius repository
-    def root_path
-      ROOT_PATH
+
+    # Setup paths
+    VIMIUS_PATH = File.expand_path(File.join ENV['HOME'], '.vim', 'vimius')
+    VIMIUS_VIM_PATH = File.join VIMIUS_PATH, 'vim'
+    VIMIUS_RUBY_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
+    CONFIG_FILE = File.expand_path(File.join ENV['HOME'], '.vimius.yaml')
+    MODULES_FILE = File.join(VIMIUS_PATH, 'submodules.yaml')
+
+    def config
+      @config ||= TgConfig.new(CONFIG_FILE)
     end
 
     # Return Vimius path

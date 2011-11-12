@@ -53,7 +53,9 @@ module Vimius
     #
     # @return [Array]
     def active
-
+      Vimius::Config[:submodules].map do |submodule|
+        submodule(submodule)
+      end
     end
 
     # Return all available groups

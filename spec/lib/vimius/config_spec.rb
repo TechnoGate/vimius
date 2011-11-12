@@ -12,9 +12,11 @@ describe Vimius::Config do
 
     ::File.stubs(:exists?).with(@config_path).returns(true)
     ::File.stubs(:readable?).with(@config_path).returns(true)
+    ::File.stubs(:writable?).with(@config_path).returns(true)
 
     ::File.stubs(:exists?).with(@invalid_config_path).returns(false)
     ::File.stubs(:readable?).with(@invalid_config_path).returns(false)
+    ::File.stubs(:writable?).with(@invalid_config_path).returns(false)
 
     @file_handler = mock "file handler"
     @file_handler.stubs(:write)
@@ -156,6 +158,7 @@ describe Vimius::Config do
 
   describe "#write_config_file" do
     before(:each) do
+      subject.class_variable_set('@@config', @config)
       subject.class_variable_get('@@config').stubs(:to_hash).returns(@config)
     end
 
@@ -186,19 +189,32 @@ describe Vimius::Config do
 
       subject.send :write_config_file
     end
+
+    it "should raise ConfigIsEmptyError" do
+      subject.class_variable_set('@@config', nil)
+
+      -> { subject.send :write_config_file }.should raise_error ConfigIsEmptyError
+    end
   end
 
   describe "#save" do
+    before(:each) do
+      subject.class_variable_set('@@config', @config)
+      subject.class_variable_get('@@config').stubs(:to_hash).returns(@config)
+    end
+
     it { should respond_to :save }
 
     it "should call check_config_file to make sure it is writable" do
       Vimius::Config.expects(:check_config_file).with(true).once
 
-      subject.send :save
+      subject.save
     end
 
     it "should call write_config_file" do
+      Vimius::Config.expects(:write_config_file).once
 
+      subject.save
     end
 
     it "should clear the cache" do

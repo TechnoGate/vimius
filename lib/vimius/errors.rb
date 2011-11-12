@@ -7,5 +7,6 @@ module Vimius
   ConfigNotDefinedError = Class.new VimiusError
   ConfigNotWritableError = Class.new VimiusError
   ConfigNotValidError = Class.new VimiusError
+  ConfigIsEmptyError = Class.new VimiusError
   SubmodulesNotValidError = Class.new VimiusError
 end

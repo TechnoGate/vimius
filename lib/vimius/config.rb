@@ -43,6 +43,8 @@ module Vimius
     def save
       # Make sure the config file is writable
       check_config_file(true)
+      # Write the config file
+      write_config_file
     end
 
     protected
@@ -86,6 +88,7 @@ module Vimius
 
       # Write the config file
       def write_config_file
+        raise ConfigIsEmptyError unless @@config
         File.open config_file, 'w' do |f|
           f.write(@@config.to_hash.to_yaml)
         end

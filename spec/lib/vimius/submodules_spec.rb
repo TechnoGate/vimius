@@ -28,31 +28,31 @@ describe Submodules do
   end
 
   let(:expected_submodules) do
-    {
-      "pathogen" => {
+    [
+      {
         "path"  => "vimius/vim/core/pathogen",
         "group" => "core",
         "name"  => "pathogen",
       },
-      "tlib" => {
+      {
         "path"  => "vimius/vim/tools/tlib",
         "group" => "tools",
         "dependencies" => ["pathogen"],
         "name"  => "tlib",
       },
-      "command-t" => {
+      {
         "path"  => "vimius/vim/tools/command-t",
         "group" => "tools",
         "dependencies" => ["tlib"],
         "name"  => "command-t",
       },
-      "github" => {
+      {
         "path"  => "vimius/vim/tools/github",
         "group" => "tools",
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
       },
-    }
+    ]
   end
 
   before(:each) do
@@ -64,8 +64,12 @@ describe Submodules do
   describe '#parse_submodules_yaml_file' do
     it { should respond_to :parse_submodules_yaml_file }
 
-    it "should parse the submodules file and returns a HashWithIndifferentAccess" do
-      subject.send(:parse_submodules_yaml_file).should be_instance_of HashWithIndifferentAccess
+    it "should parse the submodules file and returns a Array" do
+      subject.send(:parse_submodules_yaml_file).should be_instance_of Array
+    end
+
+    it "should have the elements as a HashWithIndifferentAccess" do
+      subject.send(:parse_submodules_yaml_file).first.should be_instance_of HashWithIndifferentAccess
     end
 
     it "should handle the case where submodules is not a valid YAML file." do
@@ -112,7 +116,15 @@ describe Submodules do
     end
 
     it "should add the name for each submodule" do
-      subject.submodules["pathogen"]["name"].should == "pathogen"
+      subject.submodules.first["name"].should == "pathogen"
+    end
+  end
+
+  describe "#find_submodule" do
+    it { should respond_to :find_submodule }
+
+    it "should return the submodule we're looking for" do
+      subject.send(:find_submodule, :pathogen).should == expected_submodules.first
     end
   end
 
@@ -120,7 +132,7 @@ describe Submodules do
     it { should respond_to :submodule }
 
     it "should return the correct module from the submodules hash" do
-      subject.submodule("pathogen").first.should == expected_submodules["pathogen"]
+      subject.submodule("pathogen").first.should == expected_submodules.first
     end
 
     it "should return the name with the submodule" do
@@ -128,8 +140,8 @@ describe Submodules do
     end
 
     it "should return all dependencies when getting the module command-t" do
-      subject.submodule("command-t").should include expected_submodules["tlib"]
-      subject.submodule("command-t").should include expected_submodules["pathogen"]
+      subject.submodule("command-t").should include expected_submodules[1]
+      subject.submodule("command-t").should include expected_submodules.first
     end
 
     it "should not include the same dependency twice" do

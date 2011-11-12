@@ -14,7 +14,7 @@ module Vimius
     #
     # @return [Array]
     def submodule(name)
-      res = [submodules[name.to_s]]
+      res = [find_submodule(name)]
       dependencies(name).each do |dependency|
         res << submodule(dependency)
       end
@@ -33,7 +33,7 @@ module Vimius
     #
     # @return [Array]
     def groups
-      submodules.map { |k, v| v[:group] }.uniq.sort
+      submodules.map { |submodule| submodule[:group] }.uniq.sort
     end
 
     protected
@@ -53,12 +53,7 @@ module Vimius
       raise SubmodulesNotValidError,
         "Not valid YAML file: It doesn't contain submodules root key." unless submodules.has_key?(:submodules)
 
-      # XXX: This is not ruby-ish
-      submodules[:submodules].each do |k, v|
-       submodules[:submodules][k].merge!(:name => k)
-      end
-
-      submodules[:submodules]
+      submodules[:submodules].map { |k, v| v.merge(:name => k) }
     end
 
     # Return a list of all dependencies of a submodule (recursive)
@@ -67,7 +62,7 @@ module Vimius
     # @return [Array]
     def dependencies(name)
       dependencies = []
-      submodule = submodules[name.to_s]
+      submodule = find_submodule(name)
       if submodule.has_key?(:dependencies)
         submodule[:dependencies].each do |dependency|
           dependencies << dependency
@@ -76,6 +71,15 @@ module Vimius
       end
 
       dependencies.flatten.uniq.sort
+    end
+
+    # Find the submodule given bu the name
+    #
+    # @param [String] name
+    # @return [Hash]
+    def find_submodule(name)
+      submodules.select { |s| s[:name].to_s == name.to_s }.
+        first
     end
   end
 end

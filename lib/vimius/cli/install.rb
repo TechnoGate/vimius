@@ -9,8 +9,22 @@ module TechnoGate
           base.class_eval <<-END, __FILE__, __LINE__ + 1
             desc "Install vimius", "install"
             def install
+              # Sanity check
+              sanity_check
+            end
+
+            protected
+            def sanity_check
               if File.exists?(USER_VIM_PATH)
-                puts "\#{USER_VIM_PATH} exists, cannot continue."
+                abort "\#{USER_VIM_PATH} exists, cannot continue."
+              end
+
+              if File.exists?(USER_VIMRC_PATH)
+                abort "\#{USER_VIMRC_PATH} exists, cannot continue."
+              end
+
+              if File.exists?(USER_GVIMRC_PATH)
+                abort "\#{USER_GVIMRC_PATH} exists, cannot continue."
               end
             end
           END

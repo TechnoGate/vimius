@@ -57,6 +57,13 @@ module TechnoGate
         end
       end
 
+      # Return an array of inactive submodiles
+      #
+      # @return [Array]
+      def inactive
+        submodules - active
+      end
+
       # Return all available groups
       #
       # @return [Array]

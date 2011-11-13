@@ -55,6 +55,39 @@ describe Submodules do
     ]
   end
 
+  let(:expected_active_submodules) do
+    [
+      {
+        "path"  => "vimius/vim/core/pathogen",
+        "group" => "core",
+        "name"  => "pathogen",
+      },
+      {
+        "path"  => "vimius/vim/tools/tlib",
+        "group" => "tools",
+        "dependencies" => ["pathogen"],
+        "name"  => "tlib",
+      },
+      {
+        "path"  => "vimius/vim/tools/github",
+        "group" => "tools",
+        "dependencies" => ["tlib", "pathogen"],
+        "name"  => "github",
+      },
+    ]
+  end
+
+  let(:expected_inactive_submodules) do
+    [
+      {
+        "path"  => "vimius/vim/tools/command-t",
+        "group" => "tools",
+        "dependencies" => ["tlib"],
+        "name"  => "command-t",
+      },
+    ]
+  end
+
   let(:submodules_by_group) do
     {
       "core" =>
@@ -130,18 +163,14 @@ describe Submodules do
     ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
 
     # XXX: Fix for Ruby 1.8 (code working but not tests.)
-    #if RUBY_VERSION.gsub(/\./, '0').to_i >= 10900
-      ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_yaml)
-      ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_yaml)
+    ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_yaml)
+    ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_yaml)
 
-      ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
-      ::File.stubs(:open).with(CONFIG_FILE, 'r').returns({}.to_yaml)
-    #else
-      #::File.stubs(:open).with(MODULES_FILE).returns({}.to_yaml)
-      #::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
-      #Submodules.any_instance.stubs(:parse_config_file)
-      #subject.send(:instance_variable_set, :@config, submodules.with_indifferent_access)
-    #end
+    # XXX: Fix for Ruby 1.8 (code working but not tests.)
+    ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+    ::File.stubs(:open).with(CONFIG_FILE, 'r').returns({}.to_yaml)
+
+    Vimius.config.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "github"])
   end
 
   subject { Submodules.new MODULES_FILE }
@@ -204,13 +233,21 @@ describe Submodules do
   end
 
   describe "#active" do
+    before(:each) do
+    end
+
     it { should respond_to :active }
 
-    it "should return expected_submodules" do
-      Vimius.config.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
+    its(:active) { should == expected_active_submodules }
+  end
 
-      subject.active.should == expected_submodules
+  describe "#inactive" do
+    before(:each) do
+      
     end
+    it { should respond_to :inactive }
+
+    its(:inactive) { should == expected_inactive_submodules }
   end
 
   describe "#submodules_by_group" do

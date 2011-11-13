@@ -136,7 +136,21 @@ module TechnoGate
       # @param [String] Submodule's name
       # @return [Boolean] true if submodule is inactive
       def inactive?(submodule_name)
-        !!!active?(submodule_name)
+        !!!active?(submodule_name) && submodule(submodule_name).present?
+      end
+
+      # Toggle a submodule
+      #
+      # @param [String] Submodule's name
+      # @raise [SubmoduleNotFoundError]
+      def toggle(submodule_name)
+        if active?(submodule_name)
+          deactivate(submodule_name)
+        elsif inactive?(submodule_name)
+          activate(submodule_name)
+        else
+          raise SubmoduleNotFoundError
+        end
       end
 
       protected

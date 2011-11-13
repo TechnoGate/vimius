@@ -465,4 +465,24 @@ describe Submodules do
       subject.active.should == expected_active_submodules
     end
   end
+
+  context "#toggle" do
+    it { should respond_to :toggle }
+
+    it "should call activate if the submodule is inactive" do
+      subject.expects(:activate).with("command-t").once
+
+      subject.toggle("command-t")
+    end
+
+    it "should call deactivate if the submodule is inactive" do
+      subject.expects(:deactivate).with("tlib").once
+
+      subject.toggle("tlib")
+    end
+
+    it "should raise SubmoduleNotFoundError if no submodule by that name exists" do
+      lambda {subject.toggle("invalid-submodule") }.should raise_error SubmoduleNotFoundError
+    end
+  end
 end

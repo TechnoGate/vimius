@@ -105,6 +105,14 @@ module TechnoGate
         submodules.map { |submodule| submodule[:group] }.uniq.sort
       end
 
+      # Activate a submodule
+      #
+      # @param [String] Submodule's name
+      def activate(submodule_name)
+        Vimius.config[:submodules] ||= []
+        Vimius.config[:submodules] += [submodule_name]
+      end
+
       protected
       # Return a list of all dependencies of a submodule (recursive)
       #

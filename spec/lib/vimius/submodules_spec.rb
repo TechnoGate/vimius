@@ -13,15 +13,15 @@ describe Submodules do
           "group" => "tools",
           "dependencies" => ["pathogen"],
         },
-        "command-t" => {
-          "path"  => "vimius/vim/tools/command-t",
-          "group" => "tools",
-          "dependencies" => ["tlib"],
-        },
         "github" => {
           "path"  => "vimius/vim/tools/github",
           "group" => "tools",
           "dependencies" => ["tlib", "pathogen"],
+        },
+        "command-t" => {
+          "path"  => "vimius/vim/tools/command-t",
+          "group" => "tools",
+          "dependencies" => ["tlib"],
         },
       },
     }
@@ -41,16 +41,16 @@ describe Submodules do
         "name"  => "tlib",
       },
       {
-        "path"  => "vimius/vim/tools/command-t",
-        "group" => "tools",
-        "dependencies" => ["tlib"],
-        "name"  => "command-t",
-      },
-      {
         "path"  => "vimius/vim/tools/github",
         "group" => "tools",
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
+      },
+      {
+        "path"  => "vimius/vim/tools/command-t",
+        "group" => "tools",
+        "dependencies" => ["tlib"],
+        "name"  => "command-t",
       },
     ]
   end
@@ -107,16 +107,16 @@ describe Submodules do
           "name" => "tlib",
         },
         {
-          "path"  => "vimius/vim/tools/command-t",
-          "group" => "tools",
-          "dependencies" => ["tlib"],
-          "name" => "command-t",
-        },
-        {
           "path"  => "vimius/vim/tools/github",
           "group" => "tools",
           "dependencies" => ["tlib", "pathogen"],
           "name" => "github",
+        },
+        {
+          "path"  => "vimius/vim/tools/command-t",
+          "group" => "tools",
+          "dependencies" => ["tlib"],
+          "name" => "command-t",
         },
       ],
     }
@@ -135,17 +135,17 @@ describe Submodules do
         "dependencies" => ["pathogen"],
         "name"  => "tlib",
       },
-      "command-t" => {
-        "path"  => "vimius/vim/tools/command-t",
-        "group" => "tools",
-        "dependencies" => ["tlib"],
-        "name"  => "command-t",
-      },
       "github" => {
         "path"  => "vimius/vim/tools/github",
         "group" => "tools",
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
+      },
+      "command-t" => {
+        "path"  => "vimius/vim/tools/command-t",
+        "group" => "tools",
+        "dependencies" => ["tlib"],
+        "name"  => "command-t",
       },
     }
   end
@@ -242,10 +242,15 @@ describe Submodules do
     ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_yaml)
 
     # XXX: Fix for Ruby 1.8 (code working but not tests.)
-    ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
-    ::File.stubs(:open).with(CONFIG_FILE, 'r').returns({}.to_yaml)
+    ::File.stubs(:open).with(CONFIG_FILE).
+      returns({"submodules" => ["pathogen", "tlib", "github"]}.to_yaml)
+    ::File.stubs(:open).with(CONFIG_FILE, 'r').
+      returns({"submodules" => ["pathogen", "tlib", "github"]}.to_yaml)
+  end
 
-    Vimius.config.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "github"])
+  after(:each) do
+    Vimius.config.send(:instance_variable_set, :@config, nil)
+    subject.send(:instance_variable_set, :@config, nil)
   end
 
   subject { Submodules.new MODULES_FILE }
@@ -370,6 +375,39 @@ describe Submodules do
 
     it "should return active_by_name" do
       subject.active_by_name.should == active_by_name
+    end
+  end
+
+  describe "#activate" do
+    it { should respond_to :activate }
+
+    it "should activate a module" do
+      subject.active.should == expected_active_submodules
+
+      subject.activate("command-t")
+
+      subject.active.should == expected_submodules # => expected_submodules includes command-t
+                                                   #    and all activated submodules
+    end
+
+    it "should not call save on the config" do
+      Vimius.config.expects(:save).never
+
+      subject.activate("command-t")
+    end
+
+    it "should not blow if there's no initially active submodules" do
+      ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+
+      Vimius.config[:submodules].should be_nil
+
+      lambda { subject.activate("command-t") }.should_not raise_error NoMethodError
+    end
+
+    pending "should not activate an existing active submodule" do
+      subject.activate("tlib")
+
+      subject.active.should == expected_active_submodules
     end
   end
 end

@@ -23,12 +23,17 @@ describe UI do
 
   before(:each) do
     subject.send(:instance_variable_set, :@output, Output.instance)
-    TgConfig.any_instance.stubs(:write_config_file)
 
+    ::File.stubs(:exists?).with(MODULES_FILE).returns(true)
+    ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
+    ::File.stubs(:writable?).with(MODULES_FILE).returns(true)
+
+    ::File.stubs(:exists?).with(CONFIG_FILE).returns(true)
     ::File.stubs(:readable?).with(CONFIG_FILE).returns(true)
     ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
-    ::File.stubs(:open).with(CONFIG_FILE).
-      returns({"submodules" => ["pathogen", "tlib", "github"]}.to_yaml)
+
+    TgConfig.any_instance.stubs(:parse_config_file).
+      returns({}.with_indifferent_access)
   end
 
 

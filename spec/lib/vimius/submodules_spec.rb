@@ -226,17 +226,16 @@ describe Submodules do
   end
 
   before(:each) do
-    TgConfig.any_instance.stubs(:write_config_file)
-    Vimius::Submodules.any_instance.stubs(:write_config_file)
-
+    ::File.stubs(:exists?).with(MODULES_FILE).returns(true)
     ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
     ::File.stubs(:writable?).with(MODULES_FILE).returns(true)
 
+    ::File.stubs(:exists?).with(CONFIG_FILE).returns(true)
     ::File.stubs(:readable?).with(CONFIG_FILE).returns(true)
     ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
 
-    Vimius::Submodules.any_instance.stubs(:parse_config_file).returns(submodules.with_indifferent_access)
-
+    Vimius::Submodules.any_instance.stubs(:parse_config_file).
+      returns(submodules.with_indifferent_access)
     TgConfig.any_instance.stubs(:parse_config_file).
       returns({"submodules" => ["pathogen", "tlib", "github"]}.with_indifferent_access)
   end

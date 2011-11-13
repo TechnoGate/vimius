@@ -24,7 +24,7 @@ describe Submodules do
           "dependencies" => ["tlib", "pathogen"],
         },
       },
-    }.with_indifferent_access
+    }
   end
 
   let(:expected_submodules) do
@@ -33,25 +33,25 @@ describe Submodules do
         "path"  => "vimius/vim/core/pathogen",
         "group" => "core",
         "name"  => "pathogen",
-      }.with_indifferent_access,
+      },
       {
         "path"  => "vimius/vim/tools/tlib",
         "group" => "tools",
         "dependencies" => ["pathogen"],
         "name"  => "tlib",
-      }.with_indifferent_access,
+      },
       {
         "path"  => "vimius/vim/tools/command-t",
         "group" => "tools",
         "dependencies" => ["tlib"],
         "name"  => "command-t",
-      }.with_indifferent_access,
+      },
       {
         "path"  => "vimius/vim/tools/github",
         "group" => "tools",
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
-      }.with_indifferent_access,
+      },
     ]
   end
 
@@ -86,7 +86,7 @@ describe Submodules do
           "name" => "github",
         },
       ],
-    }.with_indifferent_access
+    }
   end
 
   let (:submodules_by_name) do
@@ -114,20 +114,37 @@ describe Submodules do
         "dependencies" => ["tlib", "pathogen"],
         "name"  => "github",
       },
-    }.with_indifferent_access
+    }
   end
-
-  subject { Submodules.new MODULES_FILE }
 
   before(:each) do
     @file_handler = mock "file handler"
     @file_handler.stubs(:write)
-    ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_hash.to_yaml)
-    ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_hash.to_yaml)
     ::File.stubs(:open).with(MODULES_FILE, 'w').yields(@file_handler)
+    ::File.stubs(:open).with(CONFIG_FILE, 'w').yields(@file_handler)
+
     ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
     ::File.stubs(:writable?).with(MODULES_FILE).returns(true)
+
+    ::File.stubs(:readable?).with(CONFIG_FILE).returns(true)
+    ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
+
+    # XXX: Fix for Ruby 1.8 (code working but not tests.)
+    #if RUBY_VERSION.gsub(/\./, '0').to_i >= 10900
+      ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_yaml)
+      ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_yaml)
+
+      ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+      ::File.stubs(:open).with(CONFIG_FILE, 'r').returns({}.to_yaml)
+    #else
+      #::File.stubs(:open).with(MODULES_FILE).returns({}.to_yaml)
+      #::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+      #Submodules.any_instance.stubs(:parse_config_file)
+      #subject.send(:instance_variable_set, :@config, submodules.with_indifferent_access)
+    #end
   end
+
+  subject { Submodules.new MODULES_FILE }
 
   describe "#submodules" do
     it { should respond_to :submodules }
@@ -190,7 +207,7 @@ describe Submodules do
     it { should respond_to :active }
 
     it "should return expected_submodules" do
-      TgConfig.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
+      Vimius.config.stubs(:[]).with(:submodules).returns(["pathogen", "tlib", "command-t", "github"])
 
       subject.active.should == expected_submodules
     end

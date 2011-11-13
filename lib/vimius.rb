@@ -6,6 +6,7 @@ require "tg_config"
 
 module TechnoGate
   module Vimius
+    extend self
 
     # Setup paths
     VIMIUS_PATH = File.expand_path(File.join ENV['HOME'], '.vim', 'vimius')

@@ -235,12 +235,10 @@ describe Submodules do
     ::File.stubs(:readable?).with(CONFIG_FILE).returns(true)
     ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
 
-    # XXX: Fix for Ruby 1.8 (code working but not tests.)
-    ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_yaml)
+    Vimius::Submodules.any_instance.stubs(:parse_config_file).returns(submodules.with_indifferent_access)
 
-    # XXX: Fix for Ruby 1.8 (code working but not tests.)
-    ::File.stubs(:open).with(CONFIG_FILE).
-      returns({"submodules" => ["pathogen", "tlib", "github"]}.to_yaml)
+    TgConfig.any_instance.stubs(:parse_config_file).
+      returns({"submodules" => ["pathogen", "tlib", "github"]}.with_indifferent_access)
   end
 
   after(:each) do
@@ -410,7 +408,7 @@ describe Submodules do
     end
 
     it "should not blow if there's no initially active submodules" do
-      ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+      TgConfig.any_instance.stubs(:parse_config_file).  returns({}.with_indifferent_access)
 
       Vimius.config[:submodules].should be_nil
 
@@ -441,7 +439,7 @@ describe Submodules do
     end
 
     it "should not blow if there's no initially active submodules" do
-      ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+      TgConfig.any_instance.stubs(:parse_config_file).  returns({}.with_indifferent_access)
 
       Vimius.config[:submodules].should be_nil
 

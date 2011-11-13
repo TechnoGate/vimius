@@ -24,6 +24,9 @@ Gem::Specification.new do |s|
 
   # Bundler
   s.add_dependency 'bundler', '~>1.0.0'
+
+  # Thor
+  s.add_dependency 'thor', '~>0.14.6'
   
   # TgConfig
   s.add_dependency 'tg_config', '~>0.1.2'

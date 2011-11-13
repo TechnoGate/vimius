@@ -15,6 +15,13 @@ RSpec::Matchers.define :be_in_output do
   match do |actual|
     Output.instance.messages.include?(actual).should be_true
   end
+
+  failure_message_for_should do |actual|
+    "expected #{actual} to be in output, Got:"
+    Output.instance.messages.each do |message|
+      puts "\t#{message}"
+    end
+  end
 end
 
 describe UI do

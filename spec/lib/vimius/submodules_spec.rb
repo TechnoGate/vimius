@@ -434,4 +434,35 @@ describe Submodules do
       subject.active.should == expected_active_submodules
     end
   end
+
+  context "#deactivate" do
+    it { should respond_to :deactivate }
+
+    it "should deactivate a module" do
+      subject.activate("command-t")
+      subject.active.should == expected_submodules
+      subject.deactivate("command-t")
+      subject.active.should == expected_active_submodules
+    end
+
+    it "should not call save on the config" do
+      Vimius.config.expects(:save).never
+
+      subject.deactivate("command-t")
+    end
+
+    it "should not blow if there's no initially active submodules" do
+      ::File.stubs(:open).with(CONFIG_FILE).returns({}.to_yaml)
+
+      Vimius.config[:submodules].should be_nil
+
+      lambda { subject.deactivate("command-t") }.should_not raise_error NoMethodError
+    end
+
+    it "should not deactivate an inactive submodule" do
+      subject.deactivate("command-t")
+
+      subject.active.should == expected_active_submodules
+    end
+  end
 end

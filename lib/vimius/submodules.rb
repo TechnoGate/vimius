@@ -113,6 +113,16 @@ module TechnoGate
         Vimius.config[:submodules] += [submodule_name] unless active?(submodule_name)
       end
 
+      # Deactive a submodule
+      #
+      # @param [String] Submodule's name
+      def deactivate(submodule_name)
+        return unless Vimius.config[:submodules]
+        return unless active?(submodule_name)
+
+        Vimius.config[:submodules] -= [submodule_name]
+      end
+
       # Check if a submodule is active
       #
       # @param [String] Submodule's name

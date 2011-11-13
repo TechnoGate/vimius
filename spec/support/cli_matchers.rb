@@ -43,6 +43,12 @@ RSpec.configure do |config|
       no_tasks do
         define_method :puts do |*args|
           Output.instance.puts(*args)
+          return true
+        end
+
+        define_method :abort do |*args|
+          Output.instance.puts(*args)
+          return false
         end
       end
     END

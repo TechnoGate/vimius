@@ -1,6 +1,8 @@
 require 'spec_helper'
+require 'singleton'
 
 class Output
+  include Singleton
   attr_accessor :messages
 
   def puts(message)
@@ -9,13 +11,18 @@ class Output
   end
 end
 
+RSpec::Matchers.define :be_in_output do
+  match do |actual|
+    Output.instance.messages.include?(actual).should be_true
+  end
+end
+
 describe UI do
 
   subject { UI.instance }
 
   before(:each) do
-    @output = Output.new
-    subject.send(:instance_variable_set, :@output, @output)
+    subject.send(:instance_variable_set, :@output, Output.instance)
   end
 
 
@@ -35,6 +42,16 @@ describe UI do
     end
   end
 
+  context '#puts' do
+    it { should respond_to :puts }
+
+    it "should puts into @output" do
+      subject.send :puts, "Hi from tests"
+
+      "Hi from tests".should be_in_output
+    end
+  end
+
   context '#run' do
     it { should respond_to :run }
 
@@ -42,6 +59,12 @@ describe UI do
       Vimius.expects(:config).once
 
       subject.run
+    end
+
+    it "should display the ASCII art" do
+      subject.run
+
+      UI::ASCII_ART.should be_in_output
     end
   end
 end

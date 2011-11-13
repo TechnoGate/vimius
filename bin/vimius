@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
+
+# Add the lib folder to the load path
+$:.push File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+# Load vimius
+require 'vimius'
+# Start the CLI
+TechnoGate::Vimius::CLI::Runner.start

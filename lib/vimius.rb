@@ -4,16 +4,16 @@ require "bundler/setup"
 require "active_support/core_ext"
 require "tg_config"
 
+# Setup paths
+VIMIUS_PATH = File.expand_path(File.join ENV['HOME'], '.vim', 'vimius')
+VIMIUS_VIM_PATH = File.join VIMIUS_PATH, 'vim'
+VIMIUS_RUBY_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
+CONFIG_FILE = File.expand_path(File.join ENV['HOME'], '.vimius.yaml')
+MODULES_FILE = File.join(VIMIUS_PATH, 'submodules.yaml')
+
 module TechnoGate
   module Vimius
     extend self
-
-    # Setup paths
-    VIMIUS_PATH = File.expand_path(File.join ENV['HOME'], '.vim', 'vimius')
-    VIMIUS_VIM_PATH = File.join VIMIUS_PATH, 'vim'
-    VIMIUS_RUBY_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
-    CONFIG_FILE = File.expand_path(File.join ENV['HOME'], '.vimius.yaml')
-    MODULES_FILE = File.join(VIMIUS_PATH, 'submodules.yaml')
 
     def config
       @config ||= TgConfig.new(CONFIG_FILE)
@@ -72,4 +72,4 @@ require 'vimius/gems'
 require 'vimius/github'
 require 'vimius/plugins'
 require 'vimius/submodules'
-require 'vimius/ui'
+require 'vimius/cli'

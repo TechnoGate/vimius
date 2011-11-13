@@ -228,8 +228,7 @@ describe Submodules do
   before(:each) do
     @file_handler = mock "file handler"
     @file_handler.stubs(:write)
-    ::File.stubs(:open).with(MODULES_FILE, 'w').yields(@file_handler)
-    ::File.stubs(:open).with(CONFIG_FILE, 'w').yields(@file_handler)
+    ::File.stubs(:open).with(any_of ['w']).yields(@file_handler)
 
     ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
     ::File.stubs(:writable?).with(MODULES_FILE).returns(true)

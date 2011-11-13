@@ -6,11 +6,21 @@ module TechnoGate
       module Install
 
         def self.included(base)
+          base.send :require, 'open-uri'
+
           base.class_eval <<-END, __FILE__, __LINE__ + 1
-            desc "Install vimius", "install"
+            desc "install", "Install vimius"
             def install
               # Sanity check
               sanity_check
+
+              # Download the bootstrap file
+              File.open('/tmp/vimius_bootstrap.sh', 'w') do |f|
+                f.write(open('https://raw.github.com/TechnoGate/vimius/master/bootstrap.sh').read)
+              end
+
+              # Run the bootstrap file
+              Shell.exec("cat /tmp/vimius_bootstrap.sh | sh", true)
             end
 
             protected

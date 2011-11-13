@@ -8,11 +8,31 @@ module CLI
   describe Install do
     subject { CliInstallTestClass.new }
 
+    before(:each) do
+      @file_handler = mock "File Handler"
+      @file_handler.stubs(:write)
+      ::File.stubs(:open).with('/tmp/vimius_bootstrap.sh', 'w').yields(@file_handler)
+      Shell.stubs(:exec)
+    end
+
     context "#install" do
       it { should respond_to :install }
 
       it "should call sanity_check" do
         subject.expects(:sanity_check).once
+
+        subject.install
+      end
+
+      it "should write the bootstrap" do
+        ::File.expects(:open).with('/tmp/vimius_bootstrap.sh', 'w').
+          yields(@file_handler).once
+
+        subject.install
+      end
+
+      it "should call Shell.exec" do
+        Shell.expects(:exec).with("cat /tmp/vimius_bootstrap.sh | sh", true).once
 
         subject.install
       end

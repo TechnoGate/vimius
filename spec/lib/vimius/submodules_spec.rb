@@ -428,7 +428,7 @@ describe Submodules do
       lambda { subject.activate("command-t") }.should_not raise_error NoMethodError
     end
 
-    pending "should not activate an existing active submodule" do
+    it "should not activate an existing active submodule" do
       subject.activate("tlib")
 
       subject.active.should == expected_active_submodules

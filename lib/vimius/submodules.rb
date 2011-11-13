@@ -110,7 +110,7 @@ module TechnoGate
       # @param [String] Submodule's name
       def activate(submodule_name)
         Vimius.config[:submodules] ||= []
-        Vimius.config[:submodules] += [submodule_name]
+        Vimius.config[:submodules] += [submodule_name] unless active?(submodule_name)
       end
 
       # Check if a submodule is active

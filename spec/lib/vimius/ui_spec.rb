@@ -1,8 +1,23 @@
 require 'spec_helper'
 
+class Output
+  attr_accessor :messages
+
+  def puts(message)
+    @messages ||= []
+    @messages << message
+  end
+end
+
 describe UI do
 
   subject { UI.instance }
+
+  before(:each) do
+    @output = Output.new
+    subject.send(:instance_variable_set, :@output, @output)
+  end
+
 
   context 'singleton' do
     it "should respond to instance" do
@@ -11,6 +26,12 @@ describe UI do
 
     it "should not allow calling new" do
       lambda { UI.new }.should raise_error NoMethodError
+    end
+
+    it "should set @output STDOUT" do
+      UI.send(:instance_variable_set, :@__instance__, nil) # Ruby 1.8
+      UI.send(:instance_variable_set, :@singleton__instance__, nil) # Ruby 1.9
+      UI.instance.send(:instance_variable_get, :@output).should == STDOUT
     end
   end
 

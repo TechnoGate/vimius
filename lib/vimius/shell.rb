@@ -10,6 +10,8 @@ module TechnoGate
           `#{command} 2> /dev/null`
         end
       end
+
+      alias :exec :shell
     end
 
     include Shell

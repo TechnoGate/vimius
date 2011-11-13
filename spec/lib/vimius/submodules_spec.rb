@@ -120,7 +120,13 @@ describe Submodules do
   subject { Submodules.new MODULES_FILE }
 
   before(:each) do
-    subject.send(:instance_variable_set, :@config, submodules)
+    @file_handler = mock "file handler"
+    @file_handler.stubs(:write)
+    ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_hash.to_yaml)
+    ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_hash.to_yaml)
+    ::File.stubs(:open).with(MODULES_FILE, 'w').yields(@file_handler)
+    ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
+    ::File.stubs(:writable?).with(MODULES_FILE).returns(true)
   end
 
   describe "#submodules" do

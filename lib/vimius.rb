@@ -68,6 +68,7 @@ module TechnoGate
   end
 end
 
+require 'vimius/version'
 require 'vimius/errors'
 require 'vimius/shell'
 require 'vimius/git'

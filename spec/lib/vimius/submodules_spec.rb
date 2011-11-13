@@ -226,9 +226,8 @@ describe Submodules do
   end
 
   before(:each) do
-    @file_handler = mock "file handler"
-    @file_handler.stubs(:write)
-    ::File.stubs(:open).with(any_of ['w']).yields(@file_handler)
+    TgConfig.any_instance.stubs(:write_config_file)
+    Vimius::Submodules.any_instance.stubs(:write_config_file)
 
     ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
     ::File.stubs(:writable?).with(MODULES_FILE).returns(true)
@@ -238,12 +237,9 @@ describe Submodules do
 
     # XXX: Fix for Ruby 1.8 (code working but not tests.)
     ::File.stubs(:open).with(MODULES_FILE).returns(submodules.to_yaml)
-    ::File.stubs(:open).with(MODULES_FILE, 'r').returns(submodules.to_yaml)
 
     # XXX: Fix for Ruby 1.8 (code working but not tests.)
     ::File.stubs(:open).with(CONFIG_FILE).
-      returns({"submodules" => ["pathogen", "tlib", "github"]}.to_yaml)
-    ::File.stubs(:open).with(CONFIG_FILE, 'r').
       returns({"submodules" => ["pathogen", "tlib", "github"]}.to_yaml)
   end
 
@@ -312,18 +308,12 @@ describe Submodules do
   end
 
   context "#active" do
-    before(:each) do
-    end
-
     it { should respond_to :active }
 
     its(:active) { should == expected_active_submodules }
   end
 
   context "#inactive" do
-    before(:each) do
-      
-    end
     it { should respond_to :inactive }
 
     its(:inactive) { should == expected_inactive_submodules }

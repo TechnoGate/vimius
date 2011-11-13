@@ -5,11 +5,15 @@ require "active_support/core_ext"
 require "tg_config"
 
 # Setup paths
-VIMIUS_PATH = File.expand_path(File.join ENV['HOME'], '.vim', 'vimius')
-VIMIUS_VIM_PATH = File.join VIMIUS_PATH, 'vim'
-VIMIUS_RUBY_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
+USER_VIM_PATH = File.expand_path(File.join ENV['HOME'], '.vim')
+USER_VIMRC_PATH = File.expand_path(File.join ENV['HOME'], '.vimrc')
+USER_GVIMRC_PATH = File.expand_path(File.join ENV['HOME'], '.gvimrc')
+USER_VIMIUS_PATH = File.join USER_VIM_PATH, 'vimius'
+VIMIUS_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
+VIMIUS_LIB_PATH = File.join VIMIUS_PATH, 'lib'
+VIMIUS_SPEC_PATH = File.join VIMIUS_PATH, 'spec'
 CONFIG_FILE = File.expand_path(File.join ENV['HOME'], '.vimius.yaml')
-MODULES_FILE = File.join(VIMIUS_PATH, 'submodules.yaml')
+MODULES_FILE = File.join(USER_VIMIUS_PATH, 'submodules.yaml')
 
 module TechnoGate
   module Vimius

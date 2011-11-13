@@ -21,4 +21,4 @@ RSpec.configure do |config|
 end
 
 # Include support files.
-Dir["#{VIMIUS_RUBY_PATH}/spec/support/**/*.rb"].each { |f| require f }
+Dir["#{VIMIUS_SPEC_PATH}/support/**/*.rb"].each { |f| require f }

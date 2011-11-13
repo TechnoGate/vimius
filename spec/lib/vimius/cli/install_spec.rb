@@ -10,6 +10,12 @@ module CLI
 
     context "#install" do
       it { should respond_to :install }
+
+      it "should check that USER_VIM_PATH exists" do
+        ::File.expects(:exists?).with(USER_VIM_PATH).returns(true)
+
+        subject.install
+      end
     end
   end
 end

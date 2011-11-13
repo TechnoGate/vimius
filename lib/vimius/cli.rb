@@ -3,7 +3,7 @@
 require 'thor'
 
 # Load all modules
-Dir["#{VIMIUS_RUBY_PATH}/lib/vimius/cli/**/*.rb"].each { |f| require f }
+Dir["#{VIMIUS_LIB_PATH}/vimius/cli/**/*.rb"].each { |f| require f }
 
 module TechnoGate
   module Vimius

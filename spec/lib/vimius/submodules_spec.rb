@@ -255,7 +255,7 @@ describe Submodules do
 
   subject { Submodules.new MODULES_FILE }
 
-  describe "#submodules" do
+  context "#submodules" do
     it { should respond_to :submodules }
 
     it "should return submodules" do
@@ -267,7 +267,7 @@ describe Submodules do
     end
   end
 
-  describe "#dependencies" do
+  context "#dependencies" do
     it {should respond_to :dependencies}
 
     it "should return tlib and pathogen as dependencies of command-t" do
@@ -275,7 +275,7 @@ describe Submodules do
     end
   end
 
-  describe "#submodule" do
+  context "#submodule" do
     it { should respond_to :submodule }
 
     it "should return the submodule we're looking for" do
@@ -283,7 +283,7 @@ describe Submodules do
     end
   end
 
-  describe "#submodule_with_dependencies" do
+  context "#submodule_with_dependencies" do
     it { should respond_to :submodule_with_dependencies}
 
     it "should return the correct module from the submodules hash" do
@@ -304,7 +304,7 @@ describe Submodules do
     end
   end
 
-  describe "#groups" do
+  context "#groups" do
     it { should respond_to :groups }
 
     it "should return core and tools " do
@@ -312,7 +312,7 @@ describe Submodules do
     end
   end
 
-  describe "#active" do
+  context "#active" do
     before(:each) do
     end
 
@@ -321,7 +321,7 @@ describe Submodules do
     its(:active) { should == expected_active_submodules }
   end
 
-  describe "#inactive" do
+  context "#inactive" do
     before(:each) do
       
     end
@@ -330,7 +330,7 @@ describe Submodules do
     its(:inactive) { should == expected_inactive_submodules }
   end
 
-  describe "#submodules_by_group" do
+  context "#submodules_by_group" do
     it { should respond_to :submodules_by_group }
 
     it "should return submodules_by_group" do
@@ -338,7 +338,7 @@ describe Submodules do
     end
   end
 
-  describe "#submodules_by_name" do
+  context "#submodules_by_name" do
     it { should respond_to :submodules_by_name }
 
     it "should return submodules_by_name" do
@@ -346,7 +346,7 @@ describe Submodules do
     end
   end
 
-  describe "#active_by_group" do
+  context "#active_by_group" do
     it { should respond_to :active_by_group }
 
     it "should return active_by_group" do
@@ -354,7 +354,7 @@ describe Submodules do
     end
   end
 
-  describe "#active_by_name" do
+  context "#active_by_name" do
     it { should respond_to :active_by_name }
 
     it "should return active_by_name" do
@@ -362,7 +362,7 @@ describe Submodules do
     end
   end
 
-  describe "#active_by_name" do
+  context "#active_by_name" do
     it { should respond_to :active_by_name }
 
     it "should return active_by_name" do
@@ -370,7 +370,7 @@ describe Submodules do
     end
   end
 
-  describe "#active_by_name" do
+  context "#active_by_name" do
     it { should respond_to :active_by_name }
 
     it "should return active_by_name" do
@@ -378,7 +378,7 @@ describe Submodules do
     end
   end
 
-  describe "#activate" do
+  context "#activate" do
     it { should respond_to :activate }
 
     it "should activate a module" do

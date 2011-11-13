@@ -11,20 +11,54 @@ module TechnoGate
 
       # Return the submodules bu group
       #
+      # @param [HashWithIndifferentAccess] submodules
       # @return [Hash]
-      def submodules_by_group
+      def submodules_by_group(submodules = nil)
+        submodules ||= self.submodules
+
         submodules.group_by { |submodule| submodule[:group] }
       end
 
       # Return the submodules bu name
       #
+      # @param [HashWithIndifferentAccess] submodules
       # @return [Hash]
-      def submodules_by_name
+      def submodules_by_name(submodules = nil)
+        submodules ||= self.submodules
+
         res = {}
         submodules.each do |submodule|
           res[submodule[:name]] = submodule
         end
         res
+      end
+
+      # Return the active submodules by group
+      #
+      # @return [Hash]
+      def active_by_group
+        submodules_by_group(active)
+      end
+
+      # Return the active submodules by name
+      #
+      # @return [Hash]
+      def active_by_name
+        submodules_by_name(active)
+      end
+
+      # Return the inactive submodules by group
+      #
+      # @return [Hash]
+      def inactive_by_group
+        submodules_by_group(inactive)
+      end
+
+      # Return the inactive submodules by name
+      #
+      # @return [Hash]
+      def inactive_by_name
+        submodules_by_name(inactive)
       end
 
       # Return a submodule along with all its dependencies

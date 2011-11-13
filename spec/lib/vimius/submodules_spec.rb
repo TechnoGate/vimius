@@ -150,6 +150,81 @@ describe Submodules do
     }
   end
 
+  let(:active_by_group) do
+    {
+      "core" =>
+      [
+        {
+          "path"  => "vimius/vim/core/pathogen",
+          "group" => "core",
+          "name"  => "pathogen",
+        },
+      ],
+      "tools" =>
+      [
+        {
+          "path"  => "vimius/vim/tools/tlib",
+          "group" => "tools",
+          "dependencies" => ["pathogen"],
+          "name" => "tlib",
+        },
+        {
+          "path"  => "vimius/vim/tools/github",
+          "group" => "tools",
+          "dependencies" => ["tlib", "pathogen"],
+          "name" => "github",
+        },
+      ],
+    }
+  end
+
+  let (:active_by_name) do
+    {
+      "pathogen" => {
+        "path"  => "vimius/vim/core/pathogen",
+        "group" => "core",
+        "name"  => "pathogen",
+      },
+      "tlib" => {
+        "path"  => "vimius/vim/tools/tlib",
+        "group" => "tools",
+        "dependencies" => ["pathogen"],
+        "name"  => "tlib",
+      },
+      "github" => {
+        "path"  => "vimius/vim/tools/github",
+        "group" => "tools",
+        "dependencies" => ["tlib", "pathogen"],
+        "name"  => "github",
+      },
+    }
+  end
+
+  let(:inactive_by_group) do
+    {
+      "tools" =>
+      [
+        {
+          "path"  => "vimius/vim/tools/command-t",
+          "group" => "tools",
+          "dependencies" => ["tlib"],
+          "name" => "command-t",
+        },
+      ],
+    }
+  end
+
+  let (:inactive_by_name) do
+    {
+      "command-t" => {
+        "path"  => "vimius/vim/tools/command-t",
+        "group" => "tools",
+        "dependencies" => ["tlib"],
+        "name"  => "command-t",
+      },
+    }
+  end
+
   before(:each) do
     @file_handler = mock "file handler"
     @file_handler.stubs(:write)
@@ -263,6 +338,38 @@ describe Submodules do
 
     it "should return submodules_by_name" do
       subject.submodules_by_name.should == submodules_by_name
+    end
+  end
+
+  describe "#active_by_group" do
+    it { should respond_to :active_by_group }
+
+    it "should return active_by_group" do
+      subject.active_by_group.should == active_by_group
+    end
+  end
+
+  describe "#active_by_name" do
+    it { should respond_to :active_by_name }
+
+    it "should return active_by_name" do
+      subject.active_by_name.should == active_by_name
+    end
+  end
+
+  describe "#active_by_name" do
+    it { should respond_to :active_by_name }
+
+    it "should return active_by_name" do
+      subject.active_by_name.should == active_by_name
+    end
+  end
+
+  describe "#active_by_name" do
+    it { should respond_to :active_by_name }
+
+    it "should return active_by_name" do
+      subject.active_by_name.should == active_by_name
     end
   end
 end

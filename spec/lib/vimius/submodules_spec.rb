@@ -378,6 +378,30 @@ describe Submodules do
     end
   end
 
+  context "#active?" do
+    it { should respond_to :active? }
+
+    it "should return true for tlib" do
+      subject.active?(:tlib).should be_true
+    end
+
+    it "should return false for command-t" do
+      subject.active?("command-t").should be_false
+    end
+  end
+
+  context "#inactive?" do
+    it { should respond_to :inactive? }
+
+    it "should return false for tlib" do
+      subject.inactive?(:tlib).should be_false
+    end
+
+    it "should return true for command-t" do
+      subject.inactive?("command-t").should be_true
+    end
+  end
+
   context "#activate" do
     it { should respond_to :activate }
 

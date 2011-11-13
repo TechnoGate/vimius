@@ -113,6 +113,22 @@ module TechnoGate
         Vimius.config[:submodules] += [submodule_name]
       end
 
+      # Check if a submodule is active
+      #
+      # @param [String] Submodule's name
+      # @return [Boolean] true if submodule is active
+      def active?(submodule_name)
+        active_by_name.map {|k, v| k.to_s}.include?(submodule_name.to_s)
+      end
+
+      # Check if a submodule is inactive
+      #
+      # @param [String] Submodule's name
+      # @return [Boolean] true if submodule is inactive
+      def inactive?(submodule_name)
+        !!!active?(submodule_name)
+      end
+
       protected
       # Return a list of all dependencies of a submodule (recursive)
       #

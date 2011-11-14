@@ -26,14 +26,14 @@ module CLI
     context "List" do
       context "by group" do
         it "should be able to list submodules by group"
-        it "should mark activated submodules with an asterisk"
-        it "should add 2 spaces before inactive submodules"
+        it "should mark active submodules with ' |== '"
+        it "should mark inactive submodules with ' |-- '"
       end
 
       context "by name" do
         it "should be able to list submodules sorted by name"
-        it "should mark activated submodules with an asterisk"
-        it "should add 2 spaces before inactive submodules"
+        it "should mark active submodules with ' |== '"
+        it "should mark inactive submodules with ' |-- '"
       end
     end
 

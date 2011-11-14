@@ -25,6 +25,9 @@ module TechnoGate
                       puts "\#{marker}\#{name}"
                     end
                   end
+
+                  puts ""
+                  puts "Active submodules are prefixed with the '|==' marker"
                 end
               end
 

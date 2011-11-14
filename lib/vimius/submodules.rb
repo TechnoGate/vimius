@@ -111,8 +111,10 @@ module TechnoGate
       #
       # @param [String] Submodule's name
       def activate(submodule_name)
+        raise SubmoduleAlreadyActiveError if active?(submodule_name)
+
         Vimius.config[:submodules] ||= []
-        Vimius.config[:submodules] += [submodule_name] unless active?(submodule_name)
+        Vimius.config[:submodules] += [submodule_name]
         dependencies(submodule_name).each do |submodule|
           Vimius.config[:submodules] += [submodule] unless active?(submodule)
         end

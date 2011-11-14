@@ -33,6 +33,8 @@ module TechnoGate
                 def activate(submodule_name)
                   Vimius.submodules.activate(submodule_name) and
                     puts "\#{submodule_name} has been activated please run 'vimius update'"
+                rescue SubmoduleAlreadyActiveError
+                  abort "\#{submodule_name} is already active"
                 end
 
                 register(SubmodulesList, 'list', 'list <command>', 'List submodules.')

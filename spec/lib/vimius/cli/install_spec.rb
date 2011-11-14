@@ -12,6 +12,10 @@ module CLI
       @file_handler = mock "File Handler"
       @file_handler.stubs(:write)
       ::File.stubs(:open).with('/tmp/vimius_bootstrap.sh', 'w').yields(@file_handler)
+
+      ::FileUtils.stubs(:mv).with(USER_VIM_PATH, "#{USER_VIM_PATH}.old")
+      ::FileUtils.stubs(:mv).with(USER_VIMRC_PATH, "#{USER_VIMRC_PATH}.old")
+      ::FileUtils.stubs(:mv).with(USER_GVIMRC_PATH, "#{USER_GVIMRC_PATH}.old")
       Shell.stubs(:exec)
     end
 
@@ -35,6 +39,34 @@ module CLI
         Shell.expects(:exec).with("cat /tmp/vimius_bootstrap.sh | sh", true).once
 
         subject.install
+      end
+    end
+
+    context "#setup" do
+      it { should respond_to :setup }
+
+      it "should call :make_way_for_vimius" do
+        subject.expects(:make_way_for_vimius).once
+
+        subject.setup
+      end
+
+      it "should call install" do
+        subject.expects(:install).once
+
+        subject.setup
+      end
+    end
+
+    context "#make_way_for_vimius" do
+      it { should respond_to :make_way_for_vimius }
+
+      it "should move any vim file before running" do
+        ::FileUtils.expects(:mv).with(USER_VIM_PATH, "#{USER_VIM_PATH}.old").once
+        ::FileUtils.expects(:mv).with(USER_VIMRC_PATH, "#{USER_VIMRC_PATH}.old").once
+        ::FileUtils.expects(:mv).with(USER_GVIMRC_PATH, "#{USER_GVIMRC_PATH}.old").once
+
+        subject.send :make_way_for_vimius
       end
     end
 
@@ -68,21 +100,21 @@ module CLI
           ::File.expects(:exists?).with(USER_VIM_PATH).returns(false).once
 
           subject.send(:sanity_check).should be_false
-          "#{USER_VIM_PATH} exists, cannot continue.".should be_in_output
+          "#{USER_VIM_PATH} exists, cannot continue, please run 'vimius setup' instead.".should be_in_output
         end
 
         it "should abort if USER_VIMRC_PATH exists." do
           ::File.expects(:exists?).with(USER_VIMRC_PATH).returns(false).once
 
           subject.send(:sanity_check).should be_false
-          "#{USER_VIMRC_PATH} exists, cannot continue.".should be_in_output
+          "#{USER_VIMRC_PATH} exists, cannot continue, please run 'vimius setup' instead.".should be_in_output
         end
 
         it "should abort if USER_GVIMRC_PATH exists." do
           ::File.expects(:exists?).with(USER_GVIMRC_PATH).returns(false).once
 
           subject.send(:sanity_check).should be_false
-          "#{USER_GVIMRC_PATH} exists, cannot continue.".should be_in_output
+          "#{USER_GVIMRC_PATH} exists, cannot continue, please run 'vimius setup' instead.".should be_in_output
         end
       end
     end

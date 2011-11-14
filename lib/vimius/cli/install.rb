@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+require 'fileutils'
+
 module TechnoGate
   module Vimius
     module CLI
@@ -23,18 +25,40 @@ module TechnoGate
               Shell.exec("cat /tmp/vimius_bootstrap.sh | sh", true)
             end
 
+            desc "setup", "Move away any non-vimius installation and install vimius"
+            def setup
+              # Make way for Vimius
+              make_way_for_vimius
+              # Call the install task
+              install
+            end
+
             protected
             def sanity_check
               if File.exists?(USER_VIM_PATH)
-                abort "\#{USER_VIM_PATH} exists, cannot continue."
+                abort "\#{USER_VIM_PATH} exists, cannot continue, please run 'vimius setup' instead."
               end
 
               if File.exists?(USER_VIMRC_PATH)
-                abort "\#{USER_VIMRC_PATH} exists, cannot continue."
+                abort "\#{USER_VIMRC_PATH} exists, cannot continue, please run 'vimius setup' instead."
               end
 
               if File.exists?(USER_GVIMRC_PATH)
-                abort "\#{USER_GVIMRC_PATH} exists, cannot continue."
+                abort "\#{USER_GVIMRC_PATH} exists, cannot continue, please run 'vimius setup' instead."
+              end
+            end
+
+            def make_way_for_vimius
+              if File.exists?(USER_VIM_PATH)
+                FileUtils.mv USER_VIM_PATH, "\#{USER_VIM_PATH}.old"
+              end
+
+              if File.exists?(USER_VIMRC_PATH)
+                FileUtils.mv USER_VIMRC_PATH, "\#{USER_VIMRC_PATH}.old"
+              end
+
+              if File.exists?(USER_GVIMRC_PATH)
+                FileUtils.mv USER_GVIMRC_PATH, "\#{USER_GVIMRC_PATH}.old"
               end
             end
           END

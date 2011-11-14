@@ -23,6 +23,10 @@ module TechnoGate
       @config ||= TgConfig.new(CONFIG_FILE)
     end
 
+    def submodules
+      @submodules ||= Submodules.new(MODULES_FILE)
+    end
+
     # Return Vimius path
     #
     # @return [String] The absolute path to Vimius distribution

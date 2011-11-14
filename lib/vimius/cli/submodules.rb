@@ -11,7 +11,28 @@ module TechnoGate
 
         module InstanceMethods
           def self.included(base)
+            base.send :require, 'thor/group'
             base.class_eval <<-END, __FILE__, __LINE__ + 1
+
+              class SubmodulesList < ::Thor
+                desc "submodules list by_group", "List submodules by group"
+                def by_group
+                  Vimius.submodules.submodules_by_group.each do |group, submodules|
+                    puts group
+                    submodules.each do |submodule|
+                      name = submodule[:name]
+                      marker = Vimius.submodules.active?(name) ? ' |== ' : ' |-- '
+                      puts "\#{marker}\#{name}"
+                    end
+                  end
+                end
+              end
+
+              class Submodules < ::Thor
+                register(SubmodulesList, 'list', 'list <command>', 'List submodules.')
+              end
+
+              register(Submodules, 'submodules', 'submodules <command>', 'Operate on submodules')
             END
           end
         end

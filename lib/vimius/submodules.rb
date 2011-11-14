@@ -89,6 +89,8 @@ module TechnoGate
         Vimius.config[:submodules].map do |submodule|
           submodule(submodule)
         end
+      rescue NoMethodError
+        []
       end
 
       # Return an array of inactive submodiles

@@ -84,6 +84,18 @@ describe Submodules do
     it { should respond_to :active }
 
     its(:active) { should == expected_active_submodules }
+
+    it "should not blow if config is empty" do
+      Vimius.stubs(:config).returns(nil)
+
+      expect { subject.active }.should_not raise_error NoMethodError
+    end
+
+    it "should not blow if config does not have submodules key" do
+      Vimius.stubs(:config).returns({})
+
+      expect { subject.active }.should_not raise_error NoMethodError
+    end
   end
 
   context "#inactive" do

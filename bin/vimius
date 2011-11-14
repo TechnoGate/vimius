@@ -6,4 +6,8 @@ $:.push File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 # Load vimius
 require 'vimius'
 # Start the CLI
-TechnoGate::Vimius::CLI::Runner.start
+begin
+  TechnoGate::Vimius::CLI::Runner.start
+ensure
+  TechnoGate::Vimius.config.save if TechnoGate::Vimius.config.respond_to?(:save)
+end

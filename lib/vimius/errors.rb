@@ -10,6 +10,6 @@ module TechnoGate
     SubmoduleNotFoundError = Class.new SubmoduleError
     SubmoduleAlreadyActiveError = Class.new SubmoduleError
     SubmoduleNotActiveError = Class.new SubmoduleError
-    SubmoduleIsDependedOn = Class.new SubmoduleError
+    SubmoduleIsDependedOnError = Class.new SubmoduleError
   end
 end

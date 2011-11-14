@@ -126,6 +126,10 @@ module TechnoGate
       def deactivate(submodule_name)
         return unless Vimius.config[:submodules]
         raise SubmoduleNotActiveError unless active?(submodule_name)
+        rd = reverse_dependencies(submodule_name)
+        if rd.any?
+          raise SubmoduleIsDependedOnError, rd.join(' ')
+        end
 
         Vimius.config[:submodules] -= [submodule_name]
       end
@@ -178,16 +182,19 @@ module TechnoGate
         dependencies.flatten.uniq.sort
       end
 
+      # Return a list of all submodules that dependens on this submodule
+      #
+      # @param [String] name
+      # @return [Array]
       def reverse_dependencies(name)
         reverse_dependencies = []
         submodules_by_name.each do |submodule_name, submodule|
           next if submodule_name == name
-          next if reverse_dependencies.include?(submodule_name)
 
           reverse_dependencies << submodule_name if dependencies(submodule_name).include?(name)
         end
 
-        reverse_dependencies
+        reverse_dependencies.flatten.uniq.sort
       end
     end
   end

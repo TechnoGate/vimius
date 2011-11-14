@@ -40,6 +40,20 @@ module TechnoGate
                   abort "\#{submodule_name} is already active"
                 end
 
+                desc "submodules deactivate <submodule>", "Deactivates a submodule"
+                def deactivate(submodule_name)
+                  Vimius.submodules.deactivate(submodule_name) and
+                    puts "\#{submodule_name} has been deactivated please run 'vimius update'"
+                rescue SubmoduleNotActiveError
+                  abort "\#{submodule_name} is not active"
+                rescue SubmoduleIsDependedOnError => e
+                  puts "\#{submodule_name} cannat be deactivated because it is depended on by:"
+                  e.message.split(' ').each do |submodule|
+                    puts "- \#{submodule}"
+                  end
+                  abort ""
+                end
+
                 register(SubmodulesList, 'list', 'list <command>', 'List submodules.')
               end
 
@@ -52,5 +66,3 @@ module TechnoGate
     end
   end
 end
-
-

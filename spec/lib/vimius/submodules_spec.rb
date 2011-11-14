@@ -43,6 +43,22 @@ describe Submodules do
     end
   end
 
+  context "#reverse_dependencies" do
+    it { should respond_to :reverse_dependencies }
+
+    it "should return command-t for tlib" do
+      subject.send(:reverse_dependencies, 'tlib').should include('command-t')
+    end
+
+    it "should return tlib, github and command-t for pathogen" do
+      rd = subject.send(:reverse_dependencies, 'pathogen')
+
+      rd.should include('tlib')
+      rd.should include('github')
+      rd.should include('command-t')
+    end
+  end
+
   context "#submodule" do
     it { should respond_to :submodule }
 

@@ -177,6 +177,18 @@ module TechnoGate
 
         dependencies.flatten.uniq.sort
       end
+
+      def reverse_dependencies(name)
+        reverse_dependencies = []
+        submodules_by_name.each do |submodule_name, submodule|
+          next if submodule_name == name
+          next if reverse_dependencies.include?(submodule_name)
+
+          reverse_dependencies << submodule_name if dependencies(submodule_name).include?(name)
+        end
+
+        reverse_dependencies
+      end
     end
   end
 end

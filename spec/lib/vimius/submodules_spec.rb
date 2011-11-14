@@ -247,7 +247,7 @@ describe Submodules do
     it "should not call save on the config" do
       Vimius.config.expects(:save).never
 
-      subject.deactivate("command-t")
+      subject.deactivate("tlib")
     end
 
     it "should not blow if there's no initially active submodules" do
@@ -255,13 +255,11 @@ describe Submodules do
 
       Vimius.config[:submodules].should be_nil
 
-      lambda { subject.deactivate("command-t") }.should_not raise_error NoMethodError
+      lambda { subject.deactivate("tlib") }.should_not raise_error NoMethodError
     end
 
-    it "should not deactivate an inactive submodule" do
-      subject.deactivate("command-t")
-
-      subject.active.should == expected_active_submodules
+    it "should raise Submodule not active error." do
+      expect { subject.deactivate("command-t") }.should raise_error SubmoduleNotActiveError
     end
   end
 

@@ -29,10 +29,17 @@ module TechnoGate
               end
 
               class Submodules < ::Thor
+                desc "submodules activate <submodule>", "Activates a submodule with all it's dependencies"
+                def activate(submodule_name)
+                  Vimius.submodules.activate(submodule_name) and
+                    puts "\#{submodule_name} has been activated please run 'vimius update'"
+                end
+
                 register(SubmodulesList, 'list', 'list <command>', 'List submodules.')
               end
 
               register(Submodules, 'submodules', 'submodules <command>', 'Operate on submodules')
+
             END
           end
         end

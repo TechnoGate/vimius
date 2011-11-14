@@ -16,7 +16,7 @@ module SubmodulesDefinition
             "github" => {
               "path"  => "vimius/vim/tools/github",
               "group" => "tools",
-              "dependencies" => ["tlib", "pathogen"],
+              "dependencies" => ["pathogen"],
             },
             "command-t" => {
               "path"  => "vimius/vim/tools/command-t",
@@ -43,7 +43,7 @@ module SubmodulesDefinition
           {
             "path"  => "vimius/vim/tools/github",
             "group" => "tools",
-            "dependencies" => ["tlib", "pathogen"],
+            "dependencies" => ["pathogen"],
             "name"  => "github",
           },
           {
@@ -71,7 +71,7 @@ module SubmodulesDefinition
           {
             "path"  => "vimius/vim/tools/github",
             "group" => "tools",
-            "dependencies" => ["tlib", "pathogen"],
+            "dependencies" => ["pathogen"],
             "name"  => "github",
           },
         ]
@@ -109,7 +109,7 @@ module SubmodulesDefinition
             {
               "path"  => "vimius/vim/tools/github",
               "group" => "tools",
-              "dependencies" => ["tlib", "pathogen"],
+              "dependencies" => ["pathogen"],
               "name" => "github",
             },
             {
@@ -138,7 +138,7 @@ module SubmodulesDefinition
           "github" => {
             "path"  => "vimius/vim/tools/github",
             "group" => "tools",
-            "dependencies" => ["tlib", "pathogen"],
+            "dependencies" => ["pathogen"],
             "name"  => "github",
           },
           "command-t" => {
@@ -171,7 +171,7 @@ module SubmodulesDefinition
             {
               "path"  => "vimius/vim/tools/github",
               "group" => "tools",
-              "dependencies" => ["tlib", "pathogen"],
+              "dependencies" => ["pathogen"],
               "name" => "github",
             },
           ],
@@ -194,7 +194,7 @@ module SubmodulesDefinition
           "github" => {
             "path"  => "vimius/vim/tools/github",
             "group" => "tools",
-            "dependencies" => ["tlib", "pathogen"],
+            "dependencies" => ["pathogen"],
             "name"  => "github",
           },
         }

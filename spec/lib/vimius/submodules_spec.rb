@@ -207,6 +207,17 @@ describe Submodules do
 
       subject.active.should == expected_active_submodules
     end
+
+    it "should activate dependencies as well" do
+      TgConfig.any_instance.stubs(:parse_config_file).
+        returns({"submodules" => ["pathogen", "github"]}.with_indifferent_access)
+
+      subject.activate("command-t")
+
+      tlib = expected_submodules.delete_at(1)
+
+      subject.active.should == expected_submodules + [tlib]
+    end
   end
 
   context "#deactivate" do

@@ -3,7 +3,7 @@ module TechnoGate
     MAJOR = 0
     MINOR = 0
     TINY = 1
-    PRE = 'beta1'
+    PRE = 'beta2'
 
     def self.version
       # Init the version

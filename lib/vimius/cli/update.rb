@@ -11,6 +11,9 @@ module TechnoGate
             def update
               # Sanity check
               sanity_check
+              # Fetch the active submodules
+              active_submodules = Vimius.submodules.active_by_group
+              # Update each submodule
             end
 
             protected

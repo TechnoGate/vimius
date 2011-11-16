@@ -16,6 +16,12 @@ module CLI
 
         subject.update
       end
+
+      it "should get the list of active submodules" do
+        Vimius.submodules.expects(:active_by_group).once
+
+        subject.update
+      end
     end
 
     context "#sanity_check" do

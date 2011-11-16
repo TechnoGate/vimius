@@ -17,15 +17,8 @@ module CLI
         subject.install
       end
 
-      it "should write the bootstrap" do
-        ::File.expects(:open).with('/tmp/vimius_bootstrap.sh', 'w').
-          yields(@file_handler).once
-
-        subject.install
-      end
-
       it "should call Shell.exec" do
-        Shell.expects(:exec).with("cat /tmp/vimius_bootstrap.sh | sh", true).once
+        Shell.expects(:exec).with("git clone git://github.com/TechnoGate/vimius.git ~/.vim")
 
         subject.install
       end

@@ -15,13 +15,8 @@ module TechnoGate
               # Sanity check
               sanity_check
 
-              # Download the bootstrap file
-              File.open('/tmp/vimius_bootstrap.sh', 'w') do |f|
-                f.write(open('https://raw.github.com/TechnoGate/vimius/master/bootstrap.sh').read)
-              end
-
-              # Run the bootstrap file
-              Shell.exec("cat /tmp/vimius_bootstrap.sh | sh", true)
+              # Clone the repository
+              Shell.exec("git clone git://github.com/TechnoGate/vimius.git ~/.vim")
             end
 
             desc "setup", "Move away any non-vimius installation and install vimius"

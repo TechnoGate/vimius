@@ -1,25 +1,6 @@
 require 'spec_helper'
 
 describe Submodules do
-  before(:each) do
-    ::File.stubs(:exists?).with(MODULES_FILE).returns(true)
-    ::File.stubs(:readable?).with(MODULES_FILE).returns(true)
-    ::File.stubs(:writable?).with(MODULES_FILE).returns(true)
-
-    ::File.stubs(:exists?).with(CONFIG_FILE).returns(true)
-    ::File.stubs(:readable?).with(CONFIG_FILE).returns(true)
-    ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
-
-    Vimius::Submodules.any_instance.stubs(:parse_config_file).
-      returns(submodules.with_indifferent_access)
-    TgConfig.any_instance.stubs(:parse_config_file).
-      returns({"submodules" => ["pathogen", "tlib", "github"]}.with_indifferent_access)
-  end
-
-  after(:each) do
-    Vimius.config.send(:instance_variable_set, :@config, nil)
-    subject.send(:instance_variable_set, :@config, nil)
-  end
 
   subject { Submodules.new MODULES_FILE }
 

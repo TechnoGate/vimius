@@ -8,12 +8,6 @@ module CLI
   describe Update do
     subject { CliUpdateTestClass.new }
 
-    before(:each) do
-      ::File.stubs(:exists?).with(USER_VIM_PATH).returns(true)
-      ::File.stubs(:exists?).with(MODULES_FILE).returns(true)
-      Shell.stubs(:exec)
-    end
-
     context "#update" do
       it { should respond_to :update }
 

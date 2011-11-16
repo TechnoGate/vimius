@@ -8,17 +8,6 @@ module CLI
   describe Install do
     subject { CliInstallTestClass.new }
 
-    before(:each) do
-      @file_handler = mock "File Handler"
-      @file_handler.stubs(:write)
-      ::File.stubs(:open).with('/tmp/vimius_bootstrap.sh', 'w').yields(@file_handler)
-
-      ::FileUtils.stubs(:mv).with(USER_VIM_PATH, "#{USER_VIM_PATH}.old")
-      ::FileUtils.stubs(:mv).with(USER_VIMRC_PATH, "#{USER_VIMRC_PATH}.old")
-      ::FileUtils.stubs(:mv).with(USER_GVIMRC_PATH, "#{USER_GVIMRC_PATH}.old")
-      Shell.stubs(:exec)
-    end
-
     context "#install" do
       it { should respond_to :install }
 

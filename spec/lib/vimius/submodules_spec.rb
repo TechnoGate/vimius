@@ -265,6 +265,12 @@ describe Submodules do
     it "should raise SubmoduleIsDependedOnError if the submodule is depended on" do
       expect { subject.deactivate("pathogen") }.should raise_error SubmoduleIsDependedOnError
     end
+
+    it "should deactivate the submodule with all it's reverse dependencies if remove_dependent is true" do
+      subject.deactivate("pathogen", :remove_dependent => true)
+
+      subject.active.should be_empty
+    end
   end
 
   context "#toggle" do

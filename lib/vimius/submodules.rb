@@ -121,17 +121,19 @@ module TechnoGate
       end
 
       # Deactive a submodule
+      # The *options+ hash has the following valid keys
+      #   - [Boolean] remove_dependent: Remove also dependent modules
       #
       # @param [String] Submodule's name
-      def deactivate(submodule_name)
+      # @param [Hash] options
+      def deactivate(submodule_name, options = {})
         return unless Vimius.config[:submodules]
         raise SubmoduleNotActiveError unless active?(submodule_name)
+        # Fetch the reverse dependencies
         rd = reverse_dependencies(submodule_name)
-        if rd.any?
-          raise SubmoduleIsDependedOnError, rd.join(' ')
-        end
+        raise SubmoduleIsDependedOnError, rd.join(' ') if rd.any? && !options[:remove_dependent]
 
-        Vimius.config[:submodules] -= [submodule_name]
+        Vimius.config[:submodules] -= [submodule_name] + rd
       end
 
       # Check if a submodule is active

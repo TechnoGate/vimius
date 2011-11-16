@@ -2,9 +2,59 @@
 
 [![Click here to lend your support to: Open Source Projects and make a donation at www.pledgie.com!](http://pledgie.com/campaigns/16123.png?skin_name=chrome)](http://www.pledgie.com/campaigns/16123)
 
-# License
+## Introduction
 
-## This code is free to use under the terms of the MIT license.
+TODO
+
+## Features
+
+TODO
+
+## Getting Started
+
+### Installation
+
+```bash
+$ gem install vimius
+```
+
+### Usage
+
+TODO
+
+
+## Contributing
+
+Please feel free to fork and send pull requests, but please follow the
+following guidelines:
+
+- Prefix each commit message with the filename or the module followed by a
+  colon and a space, for example 'README: fix a typo' or 'Server/Project: Fix
+  a typo'.
+- Include tests.
+- __Do not change the version__, We will take care of that.
+
+## Contact
+
+For bugs and feature request, please use __Github issues__, for other
+requests, you may use:
+
+- [Google Groups](http://groups.google.com/group/vimius)
+- [Github private message](https://github.com/inbox/new/eMxyzptlk)
+- Email: [contact@technogate.fr](mailto:contact@technogate.fr)
+
+Don't forget to follow me on [Github](https://github.com/eMxyzptlk) and
+[Twitter](https://twitter.com/eMxyzptlk) for news and updates.
+
+## Credits
+
+Vimius is based on [Carlhuda's Janus
+distribution](https://github.com/carlhuda/janus) on their [Experimental
+branch](https://github.com/carlhuda/janus/tree/experimental)
+
+## License
+
+### This code is free to use under the terms of the MIT license.
 
 Copyright (c) 2011 TechnoGate &lt;support@technogate.fr&gt;
 

@@ -16,6 +16,7 @@ module TechnoGate
         include CLI::Version
         include CLI::Install
         include CLI::Submodules
+        include CLI::Update
       end
     end
   end

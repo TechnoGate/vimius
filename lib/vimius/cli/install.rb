@@ -9,7 +9,6 @@ module TechnoGate
 
         def self.included(base)
           base.send :require, 'open-uri'
-
           base.class_eval <<-END, __FILE__, __LINE__ + 1
             desc "install", "Install vimius"
             def install

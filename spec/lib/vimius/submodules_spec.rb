@@ -240,14 +240,14 @@ describe Submodules do
     it "should deactivate a module" do
       subject.activate("command-t")
       subject.active.should == expected_submodules
-      subject.deactivate("command-t")
+      subject.deactivate("command-t").should == ["command-t"]
       subject.active.should == expected_active_submodules
     end
 
     it "should not call save on the config" do
       Vimius.config.expects(:save).never
 
-      subject.deactivate("github")
+      subject.deactivate("github").should == ["github"]
     end
 
     it "should not blow if there's no initially active submodules" do
@@ -267,7 +267,11 @@ describe Submodules do
     end
 
     it "should deactivate the submodule with all it's reverse dependencies if remove_dependent is true" do
-      subject.deactivate("pathogen", :remove_dependent => true)
+      dea = subject.deactivate("pathogen", :remove_dependent => true)
+
+      expected_active_submodules.map{|s| s["name"]}.each do |sub|
+        dea.should include(sub)
+      end
 
       subject.active.should be_empty
     end

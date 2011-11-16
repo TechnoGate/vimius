@@ -126,6 +126,7 @@ module TechnoGate
       #
       # @param [String] Submodule's name
       # @param [Hash] options
+      # @return [Array] deactivated submodules
       def deactivate(submodule_name, options = {})
         return unless Vimius.config[:submodules]
         raise SubmoduleNotActiveError unless active?(submodule_name)
@@ -134,6 +135,8 @@ module TechnoGate
         raise SubmoduleIsDependedOnError, rd.join(' ') if rd.any? && !options[:remove_dependent]
 
         Vimius.config[:submodules] -= [submodule_name] + rd
+
+        [submodule_name] + rd
       end
 
       # Check if a submodule is active

@@ -84,7 +84,7 @@ module TechnoGate
                 abort ""
               end
 
-              register(SubmodulesList, 'list', 'list <command>', 'List submodules.')
+              register(SubmodulesList, 'list', 'submodules list <command>', 'List submodules.')
             end
 
             register(Submodules, 'submodules', 'submodules <command>', 'Operate on submodules')

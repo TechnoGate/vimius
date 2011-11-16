@@ -23,6 +23,20 @@ module TechnoGate
                 puts ""
                 puts "Active submodules are prefixed with the '|==' marker"
               end
+
+              desc "submodules list by_name", "List submodules by name"
+              def by_name
+                Vimius.submodules.submodules_by_name.each do |name, submodule|
+                  if Vimius.submodules.active?(name)
+                    puts "== \#{name}, group: \#{submodule[:group]}"
+                  else
+                    puts "-- \#{name}, group: \#{submodule[:group]}"
+                  end
+                end
+
+                puts ""
+                puts "Active submodules are prefixed with the '==' marker"
+              end
             end
 
             class Submodules < ::Thor

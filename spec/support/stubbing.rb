@@ -26,7 +26,8 @@ RSpec.configure do |config|
 
     @file_handler = mock "File Handler"
     @file_handler.stubs(:write)
-    ::File.stubs(:open).with('/tmp/vimius_bootstrap.sh', 'w').yields(@file_handler)
+    ::File.stubs(:open).with(MODULES_FILE, 'w').yields(@file_handler)
+    ::File.stubs(:open).with(CONFIG_FILE, 'w').yields(@file_handler)
 
     ::FileUtils.stubs(:mv).with(USER_VIM_PATH, "#{USER_VIM_PATH}.old")
     ::FileUtils.stubs(:mv).with(USER_VIMRC_PATH, "#{USER_VIMRC_PATH}.old")

@@ -17,6 +17,10 @@ module TechnoGate
 
               # Clone the repository
               Shell.exec("git clone git://github.com/TechnoGate/vimius.git ~/.vim")
+
+              # Create symlinks
+              FileUtils.ln_s(File.join(USER_VIM_PATH, 'vimius', 'vimrc'), USER_VIMRC_PATH)
+              FileUtils.ln_s(File.join(USER_VIM_PATH, 'vimius', 'gvimrc'), USER_GVIMRC_PATH)
             end
 
             desc "setup", "Move away any non-vimius installation and install vimius"

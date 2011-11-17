@@ -7,6 +7,8 @@ module TechnoGate
       # @return [Hash]
       def submodules
         @submodules ||= self[:submodules].map { |k, v| v.merge(:name => k) }
+      rescue NoMethodError
+        raise SubmoduleNotFoundError
       end
 
       # Return the submodules bu group

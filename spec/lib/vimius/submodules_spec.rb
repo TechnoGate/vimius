@@ -14,6 +14,13 @@ describe Submodules do
     it "should add the name for each submodule" do
       subject.submodules.first["name"].should == "pathogen"
     end
+
+    it "should be able to tell if vimius is not installed." do
+      Vimius::Submodules.any_instance.stubs(:parse_config_file).
+        returns({}.with_indifferent_access)
+
+      expect { subject.submodules }.should raise_error SubmoduleNotFoundError
+    end
   end
 
   context "#dependencies" do

@@ -14,6 +14,7 @@ VIMIUS_LIB_PATH = File.join VIMIUS_PATH, 'lib'
 VIMIUS_SPEC_PATH = File.join VIMIUS_PATH, 'spec'
 CONFIG_FILE = File.expand_path(File.join ENV['HOME'], '.vimius.yaml')
 MODULES_FILE = File.join(USER_VIMIUS_PATH, 'submodules.yaml')
+MODULES_CACHE_FILE = File.expand_path(File.join ENV['HOME'], '.vimius_cache.yaml')
 
 module TechnoGate
   module Vimius

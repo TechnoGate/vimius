@@ -8,6 +8,9 @@ require 'vimius'
 # Start the CLI
 begin
   TechnoGate::Vimius::CLI::Runner.start
+rescue TechnoGate::Vimius::SubmoduleNotFoundError
+  puts "The submodule file is not found, did you run 'vimius install'?"
+  exit 1
 ensure
   TechnoGate::Vimius.config.save if TechnoGate::Vimius.config.respond_to?(:save)
 end

@@ -1,5 +1,9 @@
-require "rubygems"
-require "bundler/setup"
+begin
+  require "bundler/setup"
+rescue LoadError
+  require "rubygems"
+  require "bundler/setup"
+end
 
 require "active_support/core_ext"
 require "tg_config"

@@ -11,10 +11,8 @@ module Command
       end
 
       it "should prints Vimius version" do
-        subject.start(["version"])
-
-        "Vimius version #{Vimius.version}".
-          should be_in_output
+        subject.start(["version"]).
+          should puts("Vimius version #{Vimius.version}")
       end
     end
   end

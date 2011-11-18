@@ -18,7 +18,6 @@ RSpec.configure do |config|
     Kernel.module_eval do
       alias :orig_puts :puts
       def puts(arg)
-        orig_puts(arg)
         $last_puts = arg
       end
     end

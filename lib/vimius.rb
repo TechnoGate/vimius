@@ -7,6 +7,7 @@ end
 
 require "active_support/core_ext"
 require "tg_config"
+require "tg_cli"
 
 # Setup paths
 USER_VIM_PATH = File.expand_path(File.join ENV['HOME'], '.vim')
@@ -86,4 +87,4 @@ require 'vimius/gems'
 require 'vimius/github'
 require 'vimius/plugins'
 require 'vimius/submodules'
-require 'vimius/cli'
+require 'vimius/command'

@@ -7,7 +7,7 @@ $:.push File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'vimius'
 # Start the CLI
 begin
-  TechnoGate::Vimius::CLI::Runner.start
+  TechnoGate::TgCli::Main.start(ARGV)
 rescue TechnoGate::Vimius::SubmoduleNotFoundError
   puts "The submodule file is not found, did you run 'vimius install'?"
   exit 1

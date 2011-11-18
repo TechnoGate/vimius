@@ -1,18 +1,16 @@
 require 'singleton'
 
-module CliSupport
+module CommandSupport
   class Output
     include Singleton
-    attr_accessor :messages
+    attr_reader :messages
 
     def initialize
       @messages = []
     end
 
-    def puts(messages)
-      if messages.respond_to? :each
-        messages.each { |m| @messages << m }
-      else
+    def add_messages(*args)
+      args.each do |message|
         @messages << messages
       end
     end
@@ -33,24 +31,29 @@ module CliSupport
 end
 
 RSpec.configure do |config|
-  cli_specs = { :file_path => config.escaped_path(%w[spec lib vimius cli]) }
-  
-  config.include CliSupport, :example_group => cli_specs
-  config.before :each, :example_group => cli_specs do
-    subject.class_eval <<-END, __FILE__, __LINE__ + 1
-      include CliSupport
+  command_specs = { :file_path => config.escaped_path(%w[spec lib vimius command]) }
 
-      no_tasks do
-        define_method :puts do |*args|
-          Output.instance.puts(*args)
-          return true
-        end
-
-        define_method :abort do |*args|
-          Output.instance.puts(*args)
-          return false
-        end
+  config.include CommandSupport, :example_group => command_specs
+  config.before :all, :example_group => command_specs do
+    STDOUT.instance_eval do
+      def puts(*args)
+        CommandSupport::Output.instance.add_messages(*args)
+        return true
       end
-    END
+    end
+    #TgCli::Main.extend CommandSupport
+    #TgCli::Main.instance_eval do
+      #no_tasks do
+        #define_method :puts do |*args|
+          #Output.instance.puts(*args)
+          #return true
+        #end
+
+        #define_method :abort do |*args|
+          #Output.instance.puts(*args)
+          #return false
+        #end
+      #end
+    #end
   end
 end

@@ -6,7 +6,24 @@ module TechnoGate
       #
       # @return [Hash]
       def submodules
-        @submodules ||= self[:submodules].map { |k, v| v.merge(:name => k) }
+        return @submodules if @submodules && @submodules.any?
+
+        @submodules = []
+
+        self[:submodules].each do |group, submodules|
+          submodules.each do |name, submodule|
+            submodule ||= {}
+            submodule.merge! "name"  => name
+            submodule["description"]  ||= ""
+            submodule.merge! "group" => group
+            submodule.merge! "path"  => submodule_path(name, group)
+            submodule["dependencies"] ||= []
+
+            @submodules << submodule.with_indifferent_access
+          end
+        end
+
+        @submodules
       rescue NoMethodError
         raise SubmoduleNotFoundError
       end
@@ -21,20 +38,6 @@ module TechnoGate
         submodules.group_by { |submodule| submodule[:group] }
       end
 
-      # Return the submodules bu name
-      #
-      # @param [HashWithIndifferentAccess] submodules
-      # @return [Hash]
-      def submodules_by_name(submodules = nil)
-        submodules ||= self.submodules
-
-        res = {}
-        submodules.each do |submodule|
-          res[submodule[:name]] = submodule
-        end
-        res
-      end
-
       # Return the active submodules by group
       #
       # @return [Hash]
@@ -42,25 +45,11 @@ module TechnoGate
         submodules_by_group(active)
       end
 
-      # Return the active submodules by name
-      #
-      # @return [Hash]
-      def active_by_name
-        submodules_by_name(active)
-      end
-
       # Return the inactive submodules by group
       #
       # @return [Hash]
       def inactive_by_group
         submodules_by_group(inactive)
-      end
-
-      # Return the inactive submodules by name
-      #
-      # @return [Hash]
-      def inactive_by_name
-        submodules_by_name(inactive)
       end
 
       # Return a submodule along with all its dependencies
@@ -89,7 +78,7 @@ module TechnoGate
       # @return [Array]
       def active
         Vimius.config[:submodules].map do |submodule|
-          submodule(submodule)
+          self.submodule(submodule)
         end
       rescue NoMethodError
         []
@@ -146,7 +135,7 @@ module TechnoGate
       # @param [String] Submodule's name
       # @return [Boolean] true if submodule is active
       def active?(submodule_name)
-        active_by_name.map {|k, v| k.to_s}.include?(submodule_name.to_s)
+        active.select { |s| s[:name].to_s == submodule_name.to_s }.any?
       end
 
       # Check if a submodule is inactive
@@ -195,13 +184,17 @@ module TechnoGate
       # @return [Array]
       def reverse_dependencies(name)
         reverse_dependencies = []
-        submodules_by_name.each do |submodule_name, submodule|
-          next if submodule_name == name
+        submodules.each do |submodule|
+          next if submodule[:name] == name
 
-          reverse_dependencies << submodule_name if dependencies(submodule_name).include?(name)
+          reverse_dependencies << submodule[:name] if dependencies(submodule[:name]).include?(name)
         end
 
         reverse_dependencies.flatten.uniq.sort
+      end
+
+      def submodule_path(name, group)
+        "vimius/vim/#{group}/#{name}"
       end
     end
   end

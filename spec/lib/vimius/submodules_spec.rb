@@ -116,43 +116,11 @@ describe Submodules do
     end
   end
 
-  context "#submodules_by_name" do
-    it { should respond_to :submodules_by_name }
-
-    it "should return submodules_by_name" do
-      subject.submodules_by_name.should == submodules_by_name
-    end
-  end
-
   context "#active_by_group" do
     it { should respond_to :active_by_group }
 
     it "should return active_by_group" do
       subject.active_by_group.should == active_by_group
-    end
-  end
-
-  context "#active_by_name" do
-    it { should respond_to :active_by_name }
-
-    it "should return active_by_name" do
-      subject.active_by_name.should == active_by_name
-    end
-  end
-
-  context "#active_by_name" do
-    it { should respond_to :active_by_name }
-
-    it "should return active_by_name" do
-      subject.active_by_name.should == active_by_name
-    end
-  end
-
-  context "#active_by_name" do
-    it { should respond_to :active_by_name }
-
-    it "should return active_by_name" do
-      subject.active_by_name.should == active_by_name
     end
   end
 

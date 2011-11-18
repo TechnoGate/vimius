@@ -4,24 +4,19 @@ module SubmodulesDefinition
       let :submodules do
         {
           "submodules" => {
-            "pathogen" => {
-              "path"  => "vimius/vim/core/pathogen",
-              "group" => "core",
+            "core" => {
+              "pathogen" => nil,
             },
-            "tlib" => {
-              "path"  => "vimius/vim/tools/tlib",
-              "group" => "tools",
-              "dependencies" => ["pathogen"],
-            },
-            "github" => {
-              "path"  => "vimius/vim/tools/github",
-              "group" => "tools",
-              "dependencies" => ["pathogen"],
-            },
-            "command-t" => {
-              "path"  => "vimius/vim/tools/command-t",
-              "group" => "tools",
-              "dependencies" => ["tlib"],
+            "tools" => {
+              "tlib" => {
+                "dependencies" => ["pathogen"],
+              },
+              "github" => {
+                "dependencies" => ["pathogen"],
+              },
+              "command-t" => {
+                "dependencies" => ["tlib"],
+              },
             },
           },
         }
@@ -30,27 +25,32 @@ module SubmodulesDefinition
       let :expected_submodules do
         [
           {
-            "path"  => "vimius/vim/core/pathogen",
-            "group" => "core",
             "name"  => "pathogen",
+            "description" => "",
+            "group" => "core",
+            "path"  => "vimius/vim/core/pathogen",
+            "dependencies" => []
           },
           {
-            "path"  => "vimius/vim/tools/tlib",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
             "name"  => "tlib",
-          },
-          {
-            "path"  => "vimius/vim/tools/github",
+            "description" => "",
             "group" => "tools",
+            "path"  => "vimius/vim/tools/tlib",
             "dependencies" => ["pathogen"],
-            "name"  => "github",
           },
           {
-            "path"  => "vimius/vim/tools/command-t",
+            "name"  => "github",
+            "description" => "",
             "group" => "tools",
-            "dependencies" => ["tlib"],
+            "path"  => "vimius/vim/tools/github",
+            "dependencies" => ["pathogen"],
+          },
+          {
             "name"  => "command-t",
+            "description" => "",
+            "group" => "tools",
+            "path"  => "vimius/vim/tools/command-t",
+            "dependencies" => ["tlib"],
           },
         ]
       end
@@ -58,21 +58,25 @@ module SubmodulesDefinition
       let :expected_active_submodules do
         [
           {
-            "path"  => "vimius/vim/core/pathogen",
-            "group" => "core",
             "name"  => "pathogen",
+            "description" => "",
+            "group" => "core",
+            "path"  => "vimius/vim/core/pathogen",
+            "dependencies" => [],
           },
           {
-            "path"  => "vimius/vim/tools/tlib",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
             "name"  => "tlib",
+            "description" => "",
+            "group" => "tools",
+            "path"  => "vimius/vim/tools/tlib",
+            "dependencies" => ["pathogen"],
           },
           {
-            "path"  => "vimius/vim/tools/github",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
             "name"  => "github",
+            "description" => "",
+            "group" => "tools",
+            "path"  => "vimius/vim/tools/github",
+            "dependencies" => ["pathogen"],
           },
         ]
       end
@@ -80,10 +84,11 @@ module SubmodulesDefinition
       let :expected_inactive_submodules do
         [
           {
-            "path"  => "vimius/vim/tools/command-t",
-            "group" => "tools",
-            "dependencies" => ["tlib"],
             "name"  => "command-t",
+            "description" => "",
+            "group" => "tools",
+            "path"  => "vimius/vim/tools/command-t",
+            "dependencies" => ["tlib"],
           },
         ]
       end
@@ -93,60 +98,37 @@ module SubmodulesDefinition
           "core" =>
           [
             {
-              "path"  => "vimius/vim/core/pathogen",
-              "group" => "core",
               "name"  => "pathogen",
+              "description" => "",
+              "group" => "core",
+              "path"  => "vimius/vim/core/pathogen",
+              "dependencies" => [],
             },
           ],
           "tools" =>
           [
             {
-              "path"  => "vimius/vim/tools/tlib",
-              "group" => "tools",
-              "dependencies" => ["pathogen"],
               "name" => "tlib",
-            },
-            {
-              "path"  => "vimius/vim/tools/github",
+              "description" => "",
               "group" => "tools",
+              "path"  => "vimius/vim/tools/tlib",
               "dependencies" => ["pathogen"],
-              "name" => "github",
             },
             {
-              "path"  => "vimius/vim/tools/command-t",
+              "name" => "github",
+              "description" => "",
               "group" => "tools",
-              "dependencies" => ["tlib"],
+              "path"  => "vimius/vim/tools/github",
+              "dependencies" => ["pathogen"],
+            },
+            {
               "name" => "command-t",
+              "description" => "",
+              "group" => "tools",
+              "path"  => "vimius/vim/tools/command-t",
+              "dependencies" => ["tlib"],
             },
           ],
-        }
-      end
-
-      let :submodules_by_name do
-        {
-          "pathogen" => {
-            "path"  => "vimius/vim/core/pathogen",
-            "group" => "core",
-            "name"  => "pathogen",
-          },
-          "tlib" => {
-            "path"  => "vimius/vim/tools/tlib",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
-            "name"  => "tlib",
-          },
-          "github" => {
-            "path"  => "vimius/vim/tools/github",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
-            "name"  => "github",
-          },
-          "command-t" => {
-            "path"  => "vimius/vim/tools/command-t",
-            "group" => "tools",
-            "dependencies" => ["tlib"],
-            "name"  => "command-t",
-          },
         }
       end
 
@@ -155,48 +137,30 @@ module SubmodulesDefinition
           "core" =>
           [
             {
-              "path"  => "vimius/vim/core/pathogen",
-              "group" => "core",
               "name"  => "pathogen",
+              "description" => "",
+              "group" => "core",
+              "path"  => "vimius/vim/core/pathogen",
+              "dependencies" => [],
             },
           ],
           "tools" =>
           [
             {
-              "path"  => "vimius/vim/tools/tlib",
-              "group" => "tools",
-              "dependencies" => ["pathogen"],
               "name" => "tlib",
+              "description" => "",
+              "group" => "tools",
+              "path"  => "vimius/vim/tools/tlib",
+              "dependencies" => ["pathogen"],
             },
             {
-              "path"  => "vimius/vim/tools/github",
-              "group" => "tools",
-              "dependencies" => ["pathogen"],
               "name" => "github",
+              "description" => "",
+              "group" => "tools",
+              "path"  => "vimius/vim/tools/github",
+              "dependencies" => ["pathogen"],
             },
           ],
-        }
-      end
-
-      let :active_by_name do
-        {
-          "pathogen" => {
-            "path"  => "vimius/vim/core/pathogen",
-            "group" => "core",
-            "name"  => "pathogen",
-          },
-          "tlib" => {
-            "path"  => "vimius/vim/tools/tlib",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
-            "name"  => "tlib",
-          },
-          "github" => {
-            "path"  => "vimius/vim/tools/github",
-            "group" => "tools",
-            "dependencies" => ["pathogen"],
-            "name"  => "github",
-          },
         }
       end
 
@@ -209,19 +173,9 @@ module SubmodulesDefinition
               "group" => "tools",
               "dependencies" => ["tlib"],
               "name" => "command-t",
+              "description" => "",
             },
           ],
-        }
-      end
-
-      let :inactive_by_name do
-        {
-          "command-t" => {
-            "path"  => "vimius/vim/tools/command-t",
-            "group" => "tools",
-            "dependencies" => ["tlib"],
-            "name"  => "command-t",
-          },
         }
       end
     END

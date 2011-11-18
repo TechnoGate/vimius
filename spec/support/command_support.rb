@@ -1,7 +1,11 @@
 module CommandMatchers
   RSpec::Matchers.define :puts do |expected|
     match do
-      $last_puts == expected
+      begin
+        $last_puts == expected
+      ensure
+        $last_puts = nil
+      end
     end
 
     failure_message_for_should do |actual|

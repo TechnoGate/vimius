@@ -5,7 +5,7 @@ module TechnoGate
     module Command
       class Version < TgCli::Base
 
-        register "version", "Print Vimius version"
+        register "version", "Prints the Vimius version information", :alias => %w(-v --version)
 
         def execute
           puts "Vimius version #{Vimius.version}"

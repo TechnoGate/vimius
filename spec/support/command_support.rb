@@ -26,8 +26,6 @@ RSpec.configure do |config|
 
   config.after :all, :example_group => command_specs do
     Kernel.module_eval do
-      alias :orig_puts :puts
-      undef :puts
       alias :puts :orig_puts
       undef :orig_puts
     end

@@ -1,15 +1,18 @@
 module CommandMatchers
   RSpec::Matchers.define :puts do |expected|
     match do
-      begin
-        $last_puts == expected
-      ensure
+      if $last_puts == expected
         $last_puts = nil
+        true
+      else
+        false
       end
     end
 
-    failure_message_for_should do |actual|
-      "expected #{expected} to be in output, Got: #{actual}"
+    failure_message_for_should do
+      last_puts = $last_puts
+      $last_puts = nil
+      "expected #{expected} to be in output, Got: #{last_puts}"
     end
   end
 end

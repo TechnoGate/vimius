@@ -21,8 +21,16 @@ RSpec.configure do |config|
   config.before :all, :example_group => command_specs do
     Kernel.module_eval do
       alias :orig_puts :puts
+      alias :orig_abort :abort
+
       def puts(arg)
         $last_puts = arg
+        true
+      end
+
+      def abort(arg)
+        $last_puts = arg
+        false
       end
     end
   end
@@ -30,7 +38,9 @@ RSpec.configure do |config|
   config.after :all, :example_group => command_specs do
     Kernel.module_eval do
       alias :puts :orig_puts
+      alias :abort :orig_abort
       undef :orig_puts
+      undef :orig_abort
     end
   end
 end

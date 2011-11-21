@@ -2,6 +2,13 @@
 
 [![Click here to lend your support to: Open Source Projects and make a donation at www.pledgie.com!](http://pledgie.com/campaigns/16123.png?skin_name=chrome)](http://www.pledgie.com/campaigns/16123)
 
+## Vim Distribution has Moved
+
+If you are looking for Vimius, the vim distribution, it has been merged
+into Janus, for now it has been merged in the
+[**experimental**](https://github.com/carlhuda/janus/tree/experimental)
+branch.
+
 ## Introduction
 
 TODO

@@ -5,7 +5,7 @@
 ## Vim Distribution has Moved
 
 If you are looking for Vimius, the vim distribution, it has been merged
-into Janus, for now it has been merged in the
+into Janus, for now it has been merged into the
 [**experimental**](https://github.com/carlhuda/janus/tree/experimental)
 branch.
 

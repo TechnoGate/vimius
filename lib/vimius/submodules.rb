@@ -13,11 +13,12 @@ module TechnoGate
         self[:submodules].each do |group, submodules|
           submodules.each do |name, submodule|
             submodule ||= {}
-            submodule.merge! "name"  => name
-            submodule["description"]  ||= ""
-            submodule.merge! "group" => group
-            submodule.merge! "path"  => submodule_path(name, group)
-            submodule["dependencies"] ||= []
+
+            submodule.reverse_merge! "name" => name,
+              "description" => "",
+              "group" => group,
+              "path" => submodule_path(name, group),
+              "dependencies" => []
 
             @submodules << submodule.with_indifferent_access
           end

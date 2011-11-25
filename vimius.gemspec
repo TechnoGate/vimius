@@ -23,13 +23,13 @@ Gem::Specification.new do |s|
   ####
 
   # Bundler
-  s.add_dependency 'bundler', '~>1.0.0'
+  s.add_dependency 'bundler', '>=1.0.0'
 
   # TgConfig
-  s.add_dependency 'tg_config', '~>0.1.2'
+  s.add_dependency 'tg_config', '~>0.1.3'
 
   # TgCli
-  s.add_dependency 'tg_cli', '~>0.0.2'
+  s.add_dependency 'tg_cli', '~>0.0.3'
 
   # Rake
   s.add_dependency 'rake', '~>0.9.2'
@@ -54,8 +54,9 @@ Gem::Specification.new do |s|
   # Development / Test dependencies
   ####
 
-  # RSpec / Capybara
+  # RSpec
   s.add_development_dependency 'rspec', '~>2.6.0'
+  s.add_development_dependency 'fuubar', '~>0.0.6'
 
   # Mocha
   s.add_development_dependency 'mocha', '~>0.10.0'

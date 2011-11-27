@@ -10,6 +10,8 @@ module TechnoGate
 
         @submodules = []
 
+        raise SubmoduleNotFoundError unless self[:submodules]
+
         self[:submodules].each do |group, submodules|
           submodules.each do |name, submodule|
             submodule ||= {}
@@ -25,8 +27,8 @@ module TechnoGate
         end
 
         @submodules
-      rescue NoMethodError
-        raise SubmoduleNotFoundError
+      rescue Errno::ENOENT => e
+        raise SubmoduleNotFoundError, e
       end
 
       # Return the submodules bu group

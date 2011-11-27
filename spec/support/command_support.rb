@@ -22,7 +22,11 @@ end
 module CommandMatchers
   RSpec::Matchers.define :puts do |expected|
     match do
-      if command_output.messages.include?(expected)
+      case
+      when expected.nil?
+        command_output.messages.empty?
+      when expected == Array && (command_output.messages - expected).empty?
+      when command_output.messages.include?(expected)
         true
       else
         false
@@ -30,7 +34,14 @@ module CommandMatchers
     end
 
     failure_message_for_should do
-      "expected #{expected} to be in output, Got: #{command_output.messages.join("\n")}"
+      expected_str = case
+                     when expected.respond_to?(:join)
+                       expected.join('\n')
+                     else
+                       expected
+                     end
+
+      "expected '#{expected_str}' to be in output, Got: '#{command_output.messages.join('\n')}'"
     end
   end
 end
@@ -84,6 +95,6 @@ RSpec.configure do |config|
   end
 
   config.after :each, :example_group => command_specs do
-    Kernel.command_output.clear
+    command_output.clear
   end
 end

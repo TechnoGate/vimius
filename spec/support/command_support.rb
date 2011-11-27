@@ -43,6 +43,17 @@ module CommandMatchers
 
       "expected '#{expected_str}' to be in output, Got: '#{command_output.messages.join('\n')}'"
     end
+
+    failure_message_for_should_not do
+      expected_str = case
+                     when expected.respond_to?(:join)
+                       expected.join('\n')
+                     else
+                       expected
+                     end
+
+      "expected '#{expected_str}' not to be in output, Got: '#{command_output.messages.join('\n')}'"
+    end
   end
 end
 

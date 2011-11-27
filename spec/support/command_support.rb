@@ -25,11 +25,8 @@ module CommandMatchers
       case
       when expected.nil?
         command_output.messages.empty?
-      when expected == Array && (command_output.messages - expected).empty?
-      when command_output.messages.include?(expected)
-        true
       else
-        false
+        ( expected.split("\n") - command_output.messages ).empty?
       end
     end
 
@@ -38,7 +35,7 @@ module CommandMatchers
                      when expected.respond_to?(:join)
                        expected.join('\n')
                      else
-                       expected
+                       expected.split("\n").join('\n')
                      end
 
       "expected '#{expected_str}' to be in output, Got: '#{command_output.messages.join('\n')}'"

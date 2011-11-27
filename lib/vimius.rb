@@ -13,7 +13,7 @@ require "tg_cli"
 USER_VIM_PATH = File.expand_path(File.join ENV['HOME'], '.vim')
 USER_VIMRC_PATH = File.expand_path(File.join ENV['HOME'], '.vimrc')
 USER_GVIMRC_PATH = File.expand_path(File.join ENV['HOME'], '.gvimrc')
-USER_VIMIUS_PATH = File.join USER_VIM_PATH, 'vimius'
+USER_VIMIUS_PATH = File.join USER_VIM_PATH, 'janus'
 VIMIUS_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
 VIMIUS_LIB_PATH = File.join VIMIUS_PATH, 'lib'
 VIMIUS_SPEC_PATH = File.join VIMIUS_PATH, 'spec'

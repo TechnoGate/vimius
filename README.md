@@ -1,4 +1,4 @@
-# Vimius [![Build Status](http://travis-ci.org/TechnoGate/vimius-ruby.png)](http://travis-ci.org/TechnoGate/vimius-ruby) [![Still Maintained](http://stillmaintained.com/TechnoGate/vimius-ruby.png)](http://stillmaintained.com/TechnoGate/vimius-ruby)
+# Vimius [![Build Status](http://travis-ci.org/TechnoGate/vimius.png)](http://travis-ci.org/TechnoGate/vimius) [![Still Maintained](http://stillmaintained.com/TechnoGate/vimius.png)](http://stillmaintained.com/TechnoGate/vimius)
 
 [![Click here to lend your support to: Open Source Projects and make a donation at www.pledgie.com!](http://pledgie.com/campaigns/16123.png?skin_name=chrome)](http://www.pledgie.com/campaigns/16123)
 

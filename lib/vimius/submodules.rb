@@ -105,6 +105,7 @@ module TechnoGate
       #
       # @param [String] Submodule's name
       def activate(submodule_name)
+        raise SubmoduleNotFoundError if submodule(submodule_name).nil?
         raise SubmoduleAlreadyActiveError if active?(submodule_name)
 
         Vimius.config[:submodules] ||= []
@@ -123,6 +124,7 @@ module TechnoGate
       # @return [Array] deactivated submodules
       def deactivate(submodule_name, options = {})
         return unless Vimius.config[:submodules]
+        raise SubmoduleNotFoundError if submodule(submodule_name).nil?
         raise SubmoduleNotActiveError unless active?(submodule_name)
         # Fetch the reverse dependencies
         rd = reverse_dependencies(submodule_name)

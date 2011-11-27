@@ -174,8 +174,12 @@ describe Submodules do
       lambda { subject.activate("command-t") }.should_not raise_error NoMethodError
     end
 
-    it "should raise Submodule already active error." do
+    it "should raise Submodule already active error" do
       expect { subject.activate("tlib") }.should raise_error SubmoduleAlreadyActiveError
+    end
+
+    it "should raise Submodule does not exist error" do
+      expect { subject.activate("invalid-submodule") }.should raise_error SubmoduleNotFoundError
     end
 
     it "should activate dependencies as well" do
@@ -216,6 +220,10 @@ describe Submodules do
 
     it "should raise Submodule not active error." do
       expect { subject.deactivate("command-t") }.should raise_error SubmoduleNotActiveError
+    end
+
+    it "should raise Submodule does not exist error" do
+      expect { subject.deactivate("invalid-submodule") }.should raise_error SubmoduleNotFoundError
     end
 
     it "should raise SubmoduleIsDependedOnError if the submodule is depended on" do

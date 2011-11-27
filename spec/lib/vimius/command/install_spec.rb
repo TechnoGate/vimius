@@ -19,21 +19,21 @@ module Command
         it "should check that USER_VIM_PATH exists" do
           ::File.expects(:exists?).with(USER_VIM_PATH).returns(true).once
 
-          subject.start(["install"]).
+          capture(:stderr) { subject.start(["install"]) }.
             should puts("#{USER_VIM_PATH} exists, cannot continue, please run 'vimius setup' instead.")
         end
 
         it "should check that USER_VIMRC_PATH exists" do
           ::File.expects(:exists?).with(USER_VIMRC_PATH).returns(true).once
 
-          subject.start(["install"]).
+          capture(:stderr) { subject.start(["install"]) }.
             should puts("#{USER_VIMRC_PATH} exists, cannot continue, please run 'vimius setup' instead.")
         end
 
         it "should check that USER_GVIMRC_PATH exists" do
           ::File.expects(:exists?).with(USER_GVIMRC_PATH).returns(true).once
 
-          subject.start(["install"]).
+          capture(:stderr) { subject.start(["install"]) }.
             should puts("#{USER_GVIMRC_PATH} exists, cannot continue, please run 'vimius setup' instead.")
         end
       end
@@ -41,7 +41,7 @@ module Command
       context 'vim is not already installed' do
 
         it "should not output anything" do
-          subject.start(["install"]).should puts(nil)
+          capture(:stdout) { subject.start(["install"]) }.should puts(nil)
         end
       end
     end

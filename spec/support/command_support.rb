@@ -1,113 +1,69 @@
-require 'singleton'
+require 'stringio'
 
-class Output
-  include Singleton
-
-  attr_reader :messages
-
-  def initialize
-    @messages = []
-  end
-
-  def puts(message)
-    case message
-    when ""
-      @messages << message
-    else
-      message.split("\n").each { |m| @messages << m }
+module CommandSupport
+  # Capture a stream
+  def capture(stream)
+    begin
+      stream = stream.to_s
+      eval "$#{stream} = StringIO.new"
+      yield
+      result = eval("$#{stream}").string
+    ensure
+      eval("$#{stream} = #{stream.upcase}")
     end
+
+    result
   end
 
-  def clear
-    @messages = []
-  end
-end
-
-
-module CommandMatchers
   RSpec::Matchers.define :puts do |expected|
-    match do
+    match do |actual|
       case
       when expected.nil? || expected.empty?
-        command_output.messages.empty?
+        actual.empty?
       else
-        ( expected.split("\n") - command_output.messages ).empty?
+        ( expected.split("\n") - actual.split("\n") ).empty?
       end
     end
 
-    failure_message_for_should do
-      expected_str = case
-                     when expected.respond_to?(:join)
-                       expected.join('\n')
-                     else
-                       expected.split("\n").join('\n')
-                     end
-
-      "expected '#{expected_str}' to be in output, Got: '#{command_output.messages.join('\n')}'"
+    failure_message_for_should do |actual|
+      "expected '#{format expected}' to be in output, Got: '#{format actual}'"
     end
 
     failure_message_for_should_not do
-      expected_str = case
-                     when expected.respond_to?(:join)
-                       expected.join('\n')
-                     else
-                       expected
-                     end
+      "expected '#{format expected}' not to be in output, Got: '#{format actual}'"
+    end
+  end
 
-      "expected '#{expected_str}' not to be in output, Got: '#{command_output.messages.join('\n')}'"
+  protected
+  def format(obj)
+    case
+    when obj.respond_to?(:join)
+      obj.join('\n')
+    else
+      obj.split("\n").join('\n')
     end
   end
 end
 
-
 RSpec.configure do |config|
   command_specs = { :file_path => config.escaped_path(%w[spec lib vimius command]) }
-  config.include CommandMatchers, :example_group => command_specs
+  config.include CommandSupport
 
   config.before :all, :example_group => command_specs do
     Kernel.module_eval do
-      alias :orig_puts :puts
       alias :orig_abort :abort
 
-      def puts(arg)
-        command_output.puts(arg)
-        true
-      end
-
-      def abort(arg)
-        command_output.puts(arg)
+      def abort(message)
+        $stderr.puts(message)
         false
-      end
-    end
-
-    Object.module_eval do
-      def command_output
-        Output.instance
-      end
-
-      def self.command_output
-        Output.instance
       end
     end
   end
 
   config.after :all, :example_group => command_specs do
     Kernel.module_eval do
-      alias :puts :orig_puts
       alias :abort :orig_abort
-      undef :orig_puts
       undef :orig_abort
     end
-
-    Object.module_eval do
-      undef :command_output
-      class << self
-        undef :command_output
-      end
-    end
-  end
-
-  config.after :each, :example_group => command_specs do
-    command_output.clear
   end
 end

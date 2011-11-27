@@ -10,7 +10,12 @@ class Output
   end
 
   def puts(message)
-    @messages << message
+    case message
+    when ""
+      @messages << message
+    else
+      message.split("\n").each { |m| @messages << m }
+    end
   end
 
   def clear
@@ -23,7 +28,7 @@ module CommandMatchers
   RSpec::Matchers.define :puts do |expected|
     match do
       case
-      when expected.nil?
+      when expected.nil? || expected.empty?
         command_output.messages.empty?
       else
         ( expected.split("\n") - command_output.messages ).empty?

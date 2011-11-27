@@ -19,7 +19,7 @@ module TechnoGate
           puts "Active submodules are prefixed with the '|==' marker"
         end
 
-        desc "submodules activate <submodule>", "Activates a submodule with all it's dependencies"
+        desc "activate <submodule>", "Activates a submodule with all it's dependencies"
         def activate(submodule_name)
           Vimius.submodules.activate(submodule_name)  and
             puts "#{submodule_name} has been activated please run 'vimius update'"
@@ -29,7 +29,7 @@ module TechnoGate
           abort "#{submodule_name} does not exist"
         end
 
-        desc "submodules deactivate <submodule> [-d]", "Deactivates a submodule"
+        desc "deactivate <submodule> [-d]", "Deactivates a submodule"
         method_option :dependency,
           :type => :boolean,
           :aliases => "-d",

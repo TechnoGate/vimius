@@ -1,41 +1,44 @@
-#require 'spec_helper'
+require 'spec_helper'
 
-#class CliSubmodulesTestClass < ::Thor
-  #include CLI::Submodules
-#end
+module Command
+  describe Submodules do
+    subject { TechnoGate::TgCli::Main }
 
-#module CLI
-  #describe Submodules do
-    #subject { CliSubmodulesTestClass.new }
+    context "#list" do
+      it "should be able to list submodules by group" do
+        subject.start(["submodules", "list"]).should puts <<-EOM
+core
+ |== pathogen
+tools
+ |== tlib
+ |== github
+ |-- command-t
 
-    #context "List" do
-      #context "by group" do
-        #pending "should be able to list submodules by group"
-        #pending "should mark active submodules with ' |== '"
-        #pending "should mark inactive submodules with ' |-- '"
-      #end
+Active submodules are prefixed with the '|==' marker
+        EOM
 
-      #context "by name" do
-        #pending "should be able to list submodules sorted by name"
-        #pending "should mark active submodules with ' |== '"
-        #pending "should mark inactive submodules with ' |-- '"
-      #end
-    #end
+      end
 
-    #context "Activate" do
-      #pending "should be able to activate a submodule"
-      #pending "should print an error if the submodule is already activated"
-      #pending "should print an error if the submodule does not exit"
-      #pending "should update the config file"
-      #pending "should be listed as active"
-    #end
+      it "should mark active submodules with ' |== '" do
+      end
 
-    #context "Deactivate" do
-      #pending "should be able to deactivate a submodule"
-      #pending "should print an error if the submodule is already deactivated"
-      #pending "should print an error if the submodule does not exit"
-      #pending "should update the config file"
-      #pending "should be listed as inactive"
-    #end
-  #end
-#end
+      it "should mark inactive submodules with ' |-- '"
+    end
+
+    context "#activate" do
+      it "should be able to activate a submodule"
+      it "should print an error if the submodule is already activated"
+      it "should print an error if the submodule does not exit"
+      it "should update the config file"
+      it "should be listed as active"
+    end
+
+    context "#deactivate" do
+      it "should be able to deactivate a submodule"
+      it "should print an error if the submodule is already deactivated"
+      it "should print an error if the submodule does not exit"
+      it "should update the config file"
+      it "should be listed as inactive"
+    end
+  end
+end

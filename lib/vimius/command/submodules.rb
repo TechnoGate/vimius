@@ -1,4 +1,27 @@
-# -*- encoding: utf-8 -*-
+module TechnoGate
+  module Vimius
+    module Command
+      class Submodules < TgCli::GroupBase
+        register "submodules", "Commands to manage submodules"
+
+        desc "list", "List submodules"
+        def list
+          Vimius.submodules.submodules_by_group.each do |group, submodules|
+            puts group
+            submodules.each do |submodule|
+              name = submodule[:name]
+              marker = Vimius.submodules.active?(name) ? ' |== ' : ' |-- '
+              puts "#{marker}#{name}"
+            end
+          end
+
+          puts ""
+          puts "Active submodules are prefixed with the '|==' marker"
+        end
+      end
+    end
+  end
+end
 
 if false
   module TechnoGate

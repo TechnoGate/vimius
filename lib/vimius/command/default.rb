@@ -15,11 +15,11 @@ module TechnoGate
 
         def license
           message = <<-EOM
-Copyright (c) 2011 TechnoGate <support@technogate.fr>
-Released under the MIT License
+            Copyright (c) 2011 TechnoGate <support@technogate.fr>
+            Released under the MIT License
           EOM
 
-          message.split("\n").each { |l| puts l.center(WIDTH).rstrip }
+          message.split("\n").each { |l| puts l.strip.center(WIDTH).rstrip }
           puts ""
         end
 

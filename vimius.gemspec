@@ -26,29 +26,29 @@ Gem::Specification.new do |s|
   s.add_dependency 'bundler', '>=1.0.0'
 
   # TgConfig
-  s.add_dependency 'tg_config', '~>0.1.3'
+  s.add_dependency 'tg_config', '~>0.1.4'
 
   # TgCli
-  s.add_dependency 'tg_cli', '~>0.0.3'
+  s.add_dependency 'tg_cli', '~>0.0.4'
 
   # Rake
-  s.add_dependency 'rake', '~>0.9.2'
+  s.add_dependency 'rake'
 
   # Active Support
   s.add_dependency 'activesupport', '~>3.1.1'
-  s.add_dependency 'i18n', '~>0.6.0'
+  s.add_dependency 'i18n'
 
   ####
   # Development dependencies
   ####
 
   # Guard
-  s.add_development_dependency 'guard', '~>0.8.4'
-  s.add_development_dependency 'guard-bundler', '~>0.1.3'
-  s.add_development_dependency 'guard-rspec', '~>0.4.5'
+  s.add_development_dependency 'guard'
+  s.add_development_dependency 'guard-bundler'
+  s.add_development_dependency 'guard-rspec'
 
   # Documentation
-  s.add_development_dependency 'yard', '~>0.7.2'
+  s.add_development_dependency 'yard'
 
   ####
   # Development / Test dependencies
@@ -56,13 +56,13 @@ Gem::Specification.new do |s|
 
   # RSpec
   s.add_development_dependency 'rspec', '~>2.6.0'
-  s.add_development_dependency 'fuubar', '~>0.0.6'
+  s.add_development_dependency 'fuubar'
 
   # Mocha
-  s.add_development_dependency 'mocha', '~>0.10.0'
+  s.add_development_dependency 'mocha'
 
   ####
   # Debugging
   ####
-  s.add_development_dependency 'pry', '~>0.9.6.2'
+  s.add_development_dependency 'pry'
 end

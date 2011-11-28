@@ -58,6 +58,9 @@ RSpec.configure do |config|
         false
       end
     end
+
+    $orig_0 = $0
+    $0 = 'vimius'
   end
 
   config.after :all, :example_group => command_specs do
@@ -65,5 +68,8 @@ RSpec.configure do |config|
       alias :abort :orig_abort
       undef :orig_abort
     end
+
+    $0 = $orig_0
+    $orig_0 = nil
   end
 end

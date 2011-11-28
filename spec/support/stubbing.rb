@@ -19,10 +19,10 @@ RSpec.configure do |config|
     ::File.stubs(:readable?).with(CONFIG_FILE).returns(true)
     ::File.stubs(:writable?).with(CONFIG_FILE).returns(true)
 
-    Vimius::Submodules.any_instance.stubs(:parse_config_file).
-      returns(submodules.with_indifferent_access)
     TgConfig.any_instance.stubs(:parse_config_file).
       returns({"submodules" => ["pathogen", "tlib", "github"]}.with_indifferent_access)
+    Vimius::Submodules.any_instance.stubs(:parse_config_file).
+      returns(submodules.with_indifferent_access)
 
     @file_handler = mock "File Handler"
     @file_handler.stubs(:write)
@@ -36,7 +36,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     Vimius.config.send(:instance_variable_set, :@config, nil)
-    subject.send(:instance_variable_set, :@config, nil)
+    Vimius.submodules.send(:instance_variable_set, :@config, nil)
   end
 end
 

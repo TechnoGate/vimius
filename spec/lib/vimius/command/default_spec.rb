@@ -11,6 +11,18 @@ module Command
           should puts(File.read VIMIUS_ASCII_PATH)
       end
 
+      it "should print License terms" do
+        capture(:stdout) { subject.start(["default"]) }.should puts <<-EOM
+         Copyright (c) 2011 TechnoGate <support@technogate.fr>
+                     Released under the MIT License
+        EOM
+      end
+
+      it "should print custom help" do
+        capture(:stdout) { subject.start(["default"]) }.
+          should puts(File.read VIMIUS_HELP_PATH)
+      end
+
       it "should print default help message" do
         capture(:stdout) { subject.start(["default"]) }.should puts <<-EOM
 Tasks:

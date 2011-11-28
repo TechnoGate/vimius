@@ -1,0 +1,26 @@
+Vimius installs and manages Janus, the Vim distribution for Unix systems,
+to install Janus simply run
+
+  vimius install
+
+Once janus is installed you should start by selecting the desired
+submodules, submodules can be listed using
+
+  vimius submodules list
+
+To activate a submodule, use the submodules activate command like so
+
+  vimius submodules activate <NAME>
+
+To deactivate a submodule, use the submodules deactivate command like so
+
+  vimius submodules deactivate <NAME>
+
+Finally, run
+
+  vimius update
+
+to get everything installed.
+
+At anytime you can run activate/deactivate submodules, but you should
+run vimius updater afterwards

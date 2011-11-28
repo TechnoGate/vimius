@@ -6,9 +6,27 @@ module TechnoGate
       class Default < TgCli::Base
         register "default", "Default vimius task", :default => true
 
-        def execute
+        WIDTH = 72
+
+        def vimius_ascii
           puts File.read(VIMIUS_ASCII_PATH)
-          help
+          puts ""
+        end
+
+        def license
+          message = <<-EOM
+Copyright (c) 2011 TechnoGate <support@technogate.fr>
+Released under the MIT License
+          EOM
+
+          message.split("\n").each { |l| puts l.center(WIDTH).rstrip }
+          puts ""
+        end
+
+        def help
+          puts File.read(VIMIUS_HELP_PATH)
+          puts ""
+          super
         end
       end
     end

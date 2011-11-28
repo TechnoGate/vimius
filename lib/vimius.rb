@@ -18,6 +18,7 @@ VIMIUS_PATH = File.expand_path(File.join File.dirname(__FILE__), '..')
 VIMIUS_LIB_PATH = File.join VIMIUS_PATH, 'lib'
 VIMIUS_SPEC_PATH = File.join VIMIUS_PATH, 'spec'
 VIMIUS_ASCII_PATH = File.join VIMIUS_LIB_PATH, 'vimius', 'vimius_ascii.txt'
+VIMIUS_HELP_PATH = File.join VIMIUS_LIB_PATH, 'vimius', 'vimius_help.txt'
 CONFIG_FILE = File.expand_path(File.join ENV['HOME'], '.vimius.yaml')
 MODULES_FILE = File.join(USER_VIMIUS_PATH, 'submodules.yaml')
 MODULES_CACHE_FILE = File.expand_path(File.join ENV['HOME'], '.vimius_cache.yaml')
